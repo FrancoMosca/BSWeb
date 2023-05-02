@@ -1,0 +1,16 @@
+
+<div class="loginBox">
+  <h3>Registrarse</h3>
+  <form (ngSubmit)="register()" [formGroup]="registerUser">
+    <div class="inputBox">
+      <input id="uname" formControlName="email" type="text" name="Username" placeholder="Email">
+      <input id="pass" formControlName="password"type="password" name="Password" placeholder="Contrasena">
+      <input id="pass" formControlName="repeatPassword"type="password" name="repeat Password" placeholder="Repetir contrasena">  
+    </div> 
+      <input type="submit" [disabled]="registerUser.invalid" name="" value="Registrarse">
+  </form>
+  <div class="text-center">
+      <a routerLink="/login" style="color: #D4CB92;">Iniciar Sesion</a>
+  </div>
+  <app-spinner *ngIf="loading"></app-spinner>
+</div>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<div class="loginBox">
+    <h3>Iniciar Sesion</h3>
+    <form (ngSubmit)="login()" [formGroup]="loginService.userLogin">
+      <div class="inputBox">
+        <input id="uname" formControlName="email" type="text" name="Username" placeholder="Email">
+        <input id="pass" formControlName="password"type="password" name="Password" placeholder="Contrasena"> 
+      </div> 
+        <input type="submit" [disabled]="loginService.userLogin.invalid" name="" value="Acceder">
+    </form>
+    <a routerLink="/forgotten-password">Recuperar Contrasena<br> </a>
+    <div class="text-center">
+        <a routerLink="/register" style="color: #D4CB92;">Registrarse</a>
+    </div>
+    <app-spinner *ngIf="loginService.loading"></app-spinner>
+</div>
