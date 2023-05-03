@@ -6,10 +6,12 @@ import { ForgottenPasswordComponent } from './components/forgotten-password/forg
 import { HomeComponent } from './components/home/home.component';
 
 const routes: Routes = [
+  { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'forgotten-password', component: ForgottenPasswordComponent },
   { path: 'home', component: HomeComponent },
+  { path: '**', component: HomeComponent },
 
 ];
 

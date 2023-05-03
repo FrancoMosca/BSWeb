@@ -98,6 +98,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "FirebaseLogin:build:production",
+            "firebaseProject": "fir-login-4161c",
+            "firebaseHostingSite": "fir-login-4161c"
+          }
         }
       }
     }
