@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ClientService } from '../../services/client.service'
+import { Firestore, collection, doc, getDoc, getDocs, query, where} from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-login',
@@ -7,14 +10,43 @@ import { LoginService } from 'src/app/services/login.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  userLogin: FormGroup;
+  constructor(public loginService:LoginService,
+              public fb:FormBuilder,
+              public _clientService:ClientService,
+              private afStore:Firestore)
+        {
+          this.userLogin = this.fb.group({
+            email:['',[Validators.required, Validators.email]],
+            password:['',[Validators.required, Validators.minLength(6)]],
+            clientsId:['',[Validators.required]],
+          });
 
-  constructor(public loginService:LoginService){}
+          this.userLogin.get('clientsId')?.valueChanges.subscribe(val => {
+            this._clientService.clientsId = val;
+          });
+          
+        }
   
   ngOnInit(): void {
     
   }
 
-  login(){
-    this.loginService.login();
+  async login(){
+
+    const dbInstance = collection(this.afStore,'Clientes')
+    const docInstance = doc(dbInstance, this._clientService.clientsId)
+    const docSnapshot = await getDoc(docInstance)
+    if (docSnapshot.exists()) {
+      const usersArray = docSnapshot.data()['users'];
+      usersArray.forEach((user: { email: any; }) => {
+        if (user.email === this.userLogin.value.email.toLowerCase()) {
+          this.loginService.login( this.userLogin.value.email,this.userLogin.value.password);
+          console.log('entre');
+        }
+      });
+    } else {
+      console.log('No such document!');
+    }
   }
 }

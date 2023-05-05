@@ -1,7 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 body { 
     margin: 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
-    background-color: #DCD1D1!important;
+    font-family: Roboto, "Barlow Semi Condensed", sans-serif!important;
+    /* background-color: transparent!important; */
+    background-color: #5e5e5e!important;
    }
  

@@ -1,35 +1,29 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Auth, signInWithEmailAndPassword, signOut, authState } from '@angular/fire/auth';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Auth, signInWithEmailAndPassword, signOut} from '@angular/fire/auth';
+import { User } from '../models/users';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService{
-  userLogin: FormGroup;
   isLoggedIn: Boolean = false;
   loading: boolean = false;
+  user$?: Observable<User>;
+  
   constructor(
               private router: Router,
-              private auth: Auth,              
-              public fb:FormBuilder,
-              ){
+              private afAuth: Auth,
+              ){}
 
-    this.userLogin = this.fb.group({
-      email:['',[Validators.required, Validators.email]],
-      password:['',[Validators.required, Validators.minLength(6)]],
-    });
-  }
+  login(email:any,password:any){
+    this.loading = true;
+    signInWithEmailAndPassword(this.afAuth,email,password).then((user)=>{
 
-  login(){
-    const email = this.userLogin.value.email;
-    const password = this.userLogin.value.password;
-
-    this.loading =true;
-    signInWithEmailAndPassword(this.auth,email,password).then((user)=>{
       this.router.navigate(['/home']);
       this.isLoggedIn=true;
+
     }).catch((error)=>{
       this.loading =false;
       console.log(error);
@@ -37,7 +31,7 @@ export class LoginService{
   }
 
   logout(){
-    signOut(this.auth).then(() => this.router.navigate(['/home']));
+    signOut(this.afAuth).then(() => this.router.navigate(['/home']));
     this.isLoggedIn= false;
   }
 
