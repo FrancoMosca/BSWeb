@@ -41,11 +41,16 @@ export class LoginComponent implements OnInit {
     const docSnapshot = await getDoc(docInstance)
     if (docSnapshot.exists()) {
       const usersArray = docSnapshot.data()['users'];
+      let foundUser = false;
       usersArray.forEach((user: { email: any; }) => {
         if (user.email == this.userLogin.value.email.toLowerCase()) {
           this.loginService.login( this.userLogin.value.email,this.userLogin.value.password);
+          foundUser = true;
         }
       });
+      if (!foundUser) {
+        this.toastr.error('No existe ese usuario en el cliente','Error');
+      }
     } else {
       this.toastr.error('No existe ese cliente','Error');
     }
