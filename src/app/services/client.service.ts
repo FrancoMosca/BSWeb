@@ -15,10 +15,6 @@ export class ClientService implements OnInit {
     this.clients = await this.getClients();
   }
 
-  onClienteChange(){
-    // console.log(this.clientsId);
-  }
-
   async getClients(){
     const dbInstance = collection(this.afStore, 'Clientes');
     const docsSnap = await getDocs(dbInstance);

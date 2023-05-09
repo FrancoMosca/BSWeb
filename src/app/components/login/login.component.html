@@ -3,15 +3,13 @@
     <h3>Iniciar Sesion</h3>
     <form (ngSubmit)="login()" [formGroup]="userLogin">
       <div class="inputBox">
-        <select  formControlName="clientsId" (change)="_clientService.onClienteChange()">
-          <option *ngFor="let client of _clientService.clients" value="{{ client.id }}">{{ client.name }}</option>
-        </select>
+        <input id="clientId" formControlName="clientsId" type="text" name="clientsId" placeholder="Cliente">
         <input id="uname" formControlName="email" type="text" name="Username" placeholder="Email">
         <input id="pass" formControlName="password"type="password" name="Password" placeholder="Contrasena"> 
       </div> 
         <input type="submit" [disabled]="userLogin.invalid" name="" value="Acceder">
     </form>
-    <a routerLink="/forgotten-password">Recuperar Contrasena<br> </a>
+    <a routerLink="/dashboard">Recuperar Contraseña<br> </a>
     <div class="text-center">
         <a routerLink="/register" style="color: #0f81ba;">Registrarse</a>
     </div>

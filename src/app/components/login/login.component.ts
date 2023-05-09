@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ClientService } from '../../services/client.service'
-import { Firestore, collection, doc, getDoc, getDocs, query, where} from '@angular/fire/firestore';
+import { Firestore, collection, doc, getDoc} from '@angular/fire/firestore';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,8 @@ export class LoginComponent implements OnInit {
   constructor(public loginService:LoginService,
               public fb:FormBuilder,
               public _clientService:ClientService,
-              private afStore:Firestore)
+              private afStore:Firestore,
+              private toastr:ToastrService)
         {
           this.userLogin = this.fb.group({
             email:['',[Validators.required, Validators.email]],
@@ -35,18 +37,17 @@ export class LoginComponent implements OnInit {
   async login(){
 
     const dbInstance = collection(this.afStore,'Clientes')
-    const docInstance = doc(dbInstance, this._clientService.clientsId)
+    const docInstance = doc(dbInstance, this._clientService.clientsId.toLowerCase())
     const docSnapshot = await getDoc(docInstance)
     if (docSnapshot.exists()) {
       const usersArray = docSnapshot.data()['users'];
       usersArray.forEach((user: { email: any; }) => {
-        if (user.email === this.userLogin.value.email.toLowerCase()) {
+        if (user.email == this.userLogin.value.email.toLowerCase()) {
           this.loginService.login( this.userLogin.value.email,this.userLogin.value.password);
-          console.log('entre');
         }
       });
     } else {
-      console.log('No such document!');
+      this.toastr.error('No existe ese cliente','Error');
     }
   }
 }

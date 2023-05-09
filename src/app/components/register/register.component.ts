@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { Auth, User, createUserWithEmailAndPassword} from '@angular/fire/auth';
-import { Firestore, addDoc, arrayUnion, collection, doc, updateDoc} from '@angular/fire/firestore';
+import { Auth, createUserWithEmailAndPassword} from '@angular/fire/auth';
+import { Firestore, arrayUnion, collection, doc, updateDoc} from '@angular/fire/firestore';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { LoginService} from 'src/app/services/login.service';
-import { ClientService } from '../../services/client.service'
+import { ClientService } from '../../services/client.service';
+import { ToastrService } from 'ngx-toastr';
+import { FirebaseCodeErrorService } from '../../services/firebase-code-error.service';
 
 @Component({
   selector: 'app-register',
@@ -23,6 +24,8 @@ export class RegisterComponent {
               private _loginService:LoginService,
               public _clientService:ClientService,
               private afStore:Firestore,
+              private toastr: ToastrService,
+              private firebaseError:FirebaseCodeErrorService,
               ){
     this.registerUser = this.fb.group({
       email:['',[Validators.required, Validators.email]],
@@ -42,7 +45,10 @@ export class RegisterComponent {
     const repeatPassword = this.registerUser.value.repeatPassword;
 
     if (password != repeatPassword){
-      console.log("las contrasenas no coinciden");
+      this.toastr.error(
+        'Las contraseñas no coinciden',
+        'Error'
+        );
       return;
     }
 
@@ -50,20 +56,21 @@ export class RegisterComponent {
     createUserWithEmailAndPassword(this.afAuth,email, password)
     .then((user)=> {     
       this.loading =false;
-
+      this.toastr.success('El usuario se registro con exito','Usuario registrado');
       const uid = this.afAuth.currentUser?.uid;
       const authData = {
         email: this.afAuth.currentUser?.email,
         uid: uid,
       }; 
       const dbInstance = collection(this.afStore,'Clientes')
-      const clientId : string = this._clientService.clientsId
+      const clientId : string = this._clientService.clientsId.toLowerCase()
       const docInstance = doc(dbInstance,clientId);
       updateDoc(docInstance, { [`users`]: arrayUnion(authData)});
       this._loginService.login(email,password);
       this.router.navigate(['/home']);
     }).catch((error)=>{
       this.loading =false;
+      this.toastr.error(this.firebaseError.codeError(error.code),'Error');
     })
   }
   

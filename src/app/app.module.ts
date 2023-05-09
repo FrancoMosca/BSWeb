@@ -7,6 +7,9 @@ import { provideAuth,getAuth, } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 //COMPONENTES
 import { environment } from '../environments/environment';
@@ -17,7 +20,9 @@ import { RegisterComponent } from './components/register/register.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { ForgottenPasswordComponent } from './components/forgotten-password/forgotten-password.component';
 import { HomeComponent } from './components/home/home.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+
+
 
 @NgModule({
   declarations: [
@@ -27,6 +32,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     SpinnerComponent,
     ForgottenPasswordComponent,
     HomeComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,6 +44,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     NgbModule,
     NgbModalModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
+   
   ],
   providers: [],
   bootstrap: [AppComponent]
