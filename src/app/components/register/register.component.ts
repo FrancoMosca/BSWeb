@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword} from '@angular/fire/auth';
-import { Firestore, arrayUnion, collection, doc, updateDoc} from '@angular/fire/firestore';
+import { Firestore, arrayUnion, collection, doc, getDocs, updateDoc} from '@angular/fire/firestore';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService} from 'src/app/services/login.service';
@@ -39,10 +39,17 @@ export class RegisterComponent {
   }
   ngOnInit(): void{}
 
-  register(){
+  async register(){
     const email = this.registerUser.value.email;
     const password = this.registerUser.value.password;
     const repeatPassword = this.registerUser.value.repeatPassword;
+    const dbInstance = collection(this.afStore,'Clientes');
+    const clientId : string = this._clientService.clientsId.toLowerCase();
+    const docsID:Array<String> = []
+    const docs = await getDocs(dbInstance)
+    docs.forEach((doc) => {
+      docsID.push(doc.id);
+    });
 
     if (password != repeatPassword){
       this.toastr.error(
@@ -51,19 +58,17 @@ export class RegisterComponent {
         );
       return;
     }
-
-    this.loading =true;
-    createUserWithEmailAndPassword(this.afAuth,email, password)
-    .then((user)=> {     
-      this.loading =false;
-      this.toastr.success('El usuario se registro con exito','Usuario registrado');
-      const uid = this.afAuth.currentUser?.uid;
-      const authData = {
-        email: this.afAuth.currentUser?.email,
-        uid: uid,
-      }; 
-      const dbInstance = collection(this.afStore,'Clientes')
-      const clientId : string = this._clientService.clientsId.toLowerCase()
+    if (docsID.includes(clientId)){
+      this.loading =true;
+      createUserWithEmailAndPassword(this.afAuth,email, password)
+      .then(async (user)=> {     
+        this.loading =false;
+        this.toastr.success('El usuario se registro con exito','Usuario registrado');
+        const uid = this.afAuth.currentUser?.uid;
+        const authData = {
+          email: this.afAuth.currentUser?.email,
+          uid: uid,
+        }; 
       const docInstance = doc(dbInstance,clientId);
       updateDoc(docInstance, { [`users`]: arrayUnion(authData)});
       this._loginService.login(email,password);
@@ -72,6 +77,10 @@ export class RegisterComponent {
       this.loading =false;
       this.toastr.error(this.firebaseError.codeError(error.code),'Error');
     })
+  }
+    else{
+      this.toastr.error('Ese cliente no existe','Error');
+    }
   }
   
 }

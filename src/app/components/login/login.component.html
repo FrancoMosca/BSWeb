@@ -1,17 +1,30 @@
 <!DOCTYPE html>
 <div class="loginBox">
-    <h3>Iniciar Sesion</h3>
-    <form (ngSubmit)="login()" [formGroup]="userLogin">
-      <div class="inputBox">
-        <input id="clientId" formControlName="clientsId" type="text" name="clientsId" placeholder="Cliente">
-        <input id="uname" formControlName="email" type="text" name="Username" placeholder="Email">
-        <input id="pass" formControlName="password"type="password" name="Password" placeholder="Contrasena"> 
-      </div> 
-        <input type="submit" [disabled]="userLogin.invalid" name="" value="Acceder">
-    </form>
-    <a routerLink="/dashboard">Recuperar Contraseña<br> </a>
-    <div class="text-center">
-        <a routerLink="/register" style="color: #0f81ba;">Registrarse</a>
+  <h3>Iniciar Sesion</h3>
+  <form (ngSubmit)="login()" [formGroup]="userLogin">
+    <div class="form-group">
+      <input id="clientId" formControlName="clientsId" type="text" name="clientsId" placeholder="Cliente">
     </div>
-    <app-spinner *ngIf="loginService.loading"></app-spinner>
+    <div class="form-group">
+      <input id="uname" formControlName="email" type="text" name="Username" placeholder="Email">
+      <span *ngIf="userLogin.get('email')?.hasError('email') && userLogin.get('email')?.touched" class="text-danger labelError">
+        No es un email valido
+      </span>
+      <span *ngIf="userLogin.get('email')?.hasError('required') && userLogin.get('email')?.touched" class="text-danger labelError">
+        <strong>*</strong>
+      </span>
+    </div>
+    <div class="form-group">
+      <input id="pass" formControlName="password" type="password" name="Password" placeholder="Contrasena"> 
+      <span *ngIf="userLogin.get('password')?.hasError('required') && userLogin.get('password')?.touched" class="text-danger labelError">
+        <strong>*</strong>
+      </span>
+    </div> 
+    <input type="submit" [disabled]="userLogin.invalid" name="" value="Acceder">
+  </form>
+  <a routerLink="/forgotten-password">Recuperar Contraseña<br> </a>
+  <div class="text-center">
+    <a routerLink="/register" style="color: #0f81ba;">Registrarse</a>
+  </div>
+  <app-spinner *ngIf="loginService.loading"></app-spinner>
 </div>

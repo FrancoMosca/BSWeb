@@ -5,4 +5,7 @@ body {
     /* background-color: transparent!important; */
     background-color: #5e5e5e!important;
    }
- 
+   
+.labelError{
+    margin-left: 5px;
+}
