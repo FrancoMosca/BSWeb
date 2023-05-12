@@ -28,7 +28,7 @@ export class RegisterComponent {
               private firebaseError:FirebaseCodeErrorService,
               ){
     this.registerUser = this.fb.group({
-      email:['',[Validators.required, Validators.email]],
+      username:['',[Validators.required]],
       password:['',[Validators.required, Validators.minLength(6)]],
       repeatPassword:['',Validators.required],
       clientsId:['',[Validators.required]],
@@ -40,7 +40,7 @@ export class RegisterComponent {
   ngOnInit(): void{}
 
   async register(){
-    const email = this.registerUser.value.email;
+    const email = this.registerUser.value.username+'@usuario.com';
     const password = this.registerUser.value.password;
     const repeatPassword = this.registerUser.value.repeatPassword;
     const dbInstance = collection(this.afStore,'Clientes');
@@ -71,8 +71,7 @@ export class RegisterComponent {
         }; 
       const docInstance = doc(dbInstance,clientId);
       updateDoc(docInstance, { [`users`]: arrayUnion(authData)});
-      this._loginService.login(email,password);
-      this.router.navigate(['/home']);
+      // this._loginService.login(email,password);
     }).catch((error)=>{
       this.loading =false;
       this.toastr.error(this.firebaseError.codeError(error.code),'Error');

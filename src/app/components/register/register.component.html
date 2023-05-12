@@ -6,10 +6,7 @@
         <input id="clientId" formControlName="clientsId" type="text" name="clientsId" placeholder="Cliente">
       </div>
       <div class="form-group">
-        <input id="uname" formControlName="email" type="text" name="Username" placeholder="Email">
-        <span *ngIf="registerUser.get('email')?.hasError('email') && registerUser.get('email')?.touched" class="text-danger labelError">
-          No es un email valido
-        </span>
+        <input id="uname" formControlName="username" type="text" name="Username" placeholder="Usuario">
       </div>
       <input id="pass"  formControlName="password" type="password" name="Password" placeholder="Contrasena">
       <span *ngIf="registerUser.get('password')?.hasError('required') && registerUser.get('password')?.touched" class="text-danger labelError">

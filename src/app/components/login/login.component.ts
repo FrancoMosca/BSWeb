@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
               private toastr:ToastrService)
         {
           this.userLogin = this.fb.group({
-            email:['',[Validators.required, Validators.email]],
+            username:['',[Validators.required]],
             password:['',[Validators.required, Validators.minLength(6)]],
             clientsId:['',[Validators.required]],
           });
@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
   }
 
   async login(){
-
+    const email = this.userLogin.value.username+'@usuario.com';
     const dbInstance = collection(this.afStore,'Clientes')
     const docInstance = doc(dbInstance, this._clientService.clientsId.toLowerCase())
     const docSnapshot = await getDoc(docInstance)
@@ -43,8 +43,8 @@ export class LoginComponent implements OnInit {
       const usersArray = docSnapshot.data()['users'];
       let foundUser = false;
       usersArray.forEach((user: { email: any; }) => {
-        if (user.email == this.userLogin.value.email.toLowerCase()) {
-          this.loginService.login( this.userLogin.value.email,this.userLogin.value.password);
+        if (user.email == email.toLowerCase()) {
+          this.loginService.login( email,this.userLogin.value.password);
           foundUser = true;
         }
       });

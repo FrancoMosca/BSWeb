@@ -1,11 +1,164 @@
-/* You can add global styles to this file, and also import other style files */
 body { 
+    min-height: 100vh!important;
+    height: 100%!important;
     margin: 0;
     font-family: Roboto, "Barlow Semi Condensed", sans-serif!important;
-    /* background-color: transparent!important; */
-    background-color: #5e5e5e!important;
-   }
-   
+    background-image: radial-gradient(circle at 28.39% 12.57%, #0488c0 0, #0580b9 25%, #17547b 50%, #17547b 75%, #132e44 100%);
+}
+
 .labelError{
     margin-left: 5px;
 }
+
+body{
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    font-family: sans-serif;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow: hidden;
+}
+
+@media screen and (max-width: 600px){
+    body{
+        background-size: cover;
+    }
+}
+
+#particles-js{
+    height: 100%
+}
+
+.loginBox{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 350px;
+    min-height: 200px;
+    background-image: linear-gradient(to top, #1a1a1a, #1f1e1e);
+    border-radius: 10px;
+    padding: 40px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 4px rgba(0, 2, 0, 0.4);
+}
+
+.logo{
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 5px
+}
+.titulo{
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 40px
+}
+
+h3{
+    margin: 0!important;
+    padding: 0 0 20px!important;
+    color: #fff!important;
+    text-align: center!important;
+}
+
+.loginBox input,select{
+    width: 100%;
+    margin-bottom: 20px
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+.input-icon {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 90%;
+    top: 32%;
+    transform: translateY(-50%);
+}
+
+.input-icon path {
+    fill: #626464;
+}
+
+.loginBox input[type="text"],
+
+.loginBox input[type="password"],
+
+select{
+    border: none;
+    border-bottom: 2px solid #262626;
+    outline: none;
+    height: 40px;
+    color: #fff;
+    background: transparent;
+    font-size: 16px;
+    padding-left: 20px;
+    box-sizing: border-box
+}
+
+.loginBox input[type="text"]:hover,
+
+.loginBox input[type="password"]:hover,
+
+select:hover{
+    color: #0f81ba;
+    border: 1px solid #2ea4df;
+    box-shadow: 0 0 5px #0f81ba, 0 0 10px #0d6794, 0 0 15px #2ea4df, 0 2px 0 black
+}
+
+.loginBox input[type="text"]:focus,
+
+.loginBox input[type="password"]:focus
+
+select:focus{
+    border-bottom: 2px solid #0f81ba;
+}
+
+.inputBox{
+    position: relative
+}
+
+.inputBox span{
+    position: absolute;
+    top: 10px;
+    color: #262626
+}
+
+.loginBox input[type="submit"]{
+    border: none;
+    outline: none;
+    height: 40px;
+    font-size: 16px;
+    background: #0580b9;
+    color: #fff;
+    border-radius: 20px;
+    cursor: pointer
+}
+
+.loginBox input[type="submit"][disabled] {
+    background-color: #0580b998; 
+    cursor: default;
+}
+
+.loginBox a{
+    color: #636464;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    display: block
+}
+
+a:hover{
+    color: #0f81ba;
+}
+
+p{
+    color: #0f81ba;
+}
+

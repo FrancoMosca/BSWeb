@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'forgotten-password', component: ForgottenPasswordComponent },
   { path: 'home', component: HomeComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: '**', component: HomeComponent },
+  { path: '**', component: LoginComponent },
 
 ];
 
