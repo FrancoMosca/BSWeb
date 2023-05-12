@@ -35,16 +35,16 @@ export class LoginComponent implements OnInit {
   }
 
   async login(){
-    const email = this.userLogin.value.username+'@usuario.com';
+    const username = this.userLogin.value.username;
     const dbInstance = collection(this.afStore,'Clientes')
     const docInstance = doc(dbInstance, this._clientService.clientsId.toLowerCase())
     const docSnapshot = await getDoc(docInstance)
     if (docSnapshot.exists()) {
       const usersArray = docSnapshot.data()['users'];
       let foundUser = false;
-      usersArray.forEach((user: { email: any; }) => {
-        if (user.email == email.toLowerCase()) {
-          this.loginService.login( email,this.userLogin.value.password);
+      usersArray.forEach((user: { username: any;email:any }) => {
+        if (user.username == username.toLowerCase()) {
+          this.loginService.login(user.email,this.userLogin.value.password);
           foundUser = true;
         }
       });

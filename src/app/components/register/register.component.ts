@@ -29,6 +29,7 @@ export class RegisterComponent {
               ){
     this.registerUser = this.fb.group({
       username:['',[Validators.required]],
+      email:['',[Validators.required,Validators.email]],
       password:['',[Validators.required, Validators.minLength(6)]],
       repeatPassword:['',Validators.required],
       clientsId:['',[Validators.required]],
@@ -40,11 +41,12 @@ export class RegisterComponent {
   ngOnInit(): void{}
 
   async register(){
-    const email = this.registerUser.value.username+'@usuario.com';
+    const email = this.registerUser.value.email;
     const password = this.registerUser.value.password;
     const repeatPassword = this.registerUser.value.repeatPassword;
-    const dbInstance = collection(this.afStore,'Clientes');
+    const username=this.registerUser.value.username;
     const clientId : string = this._clientService.clientsId.toLowerCase();
+    const dbInstance = collection(this.afStore,'Clientes');
     const docsID:Array<String> = []
     const docs = await getDocs(dbInstance)
     docs.forEach((doc) => {
@@ -66,8 +68,9 @@ export class RegisterComponent {
         this.toastr.success('El usuario se registro con exito','Usuario registrado');
         const uid = this.afAuth.currentUser?.uid;
         const authData = {
-          email: this.afAuth.currentUser?.email,
+          email: email,
           uid: uid,
+          username: username,
         }; 
       const docInstance = doc(dbInstance,clientId);
       updateDoc(docInstance, { [`users`]: arrayUnion(authData)});

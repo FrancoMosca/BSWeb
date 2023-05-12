@@ -9,19 +9,5 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
-  client: FormGroup;
-  loading:boolean =false;
 
-  constructor(private router:Router,
-              private fb: FormBuilder,
-              private crud:CRUDService){
-    this.client = this.fb.group({
-      client:['',[Validators.required]]
-    })
-  }
-
-  addClient(){
-    const client = this.client.value.client;
-    this.crud.addClient(client);
-  }
 }

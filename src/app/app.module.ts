@@ -21,6 +21,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { ForgottenPasswordComponent } from './components/forgotten-password/forgotten-password.component';
 import { HomeComponent } from './components/home/home.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { AddClientComponent } from './components/add-client/add-client.component';
 
 
 
@@ -33,6 +34,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     ForgottenPasswordComponent,
     HomeComponent,
     DashboardComponent,
+    AddClientComponent,
   ],
   imports: [
     BrowserModule,

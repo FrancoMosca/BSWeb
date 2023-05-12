@@ -1,15 +1,4 @@
-<!DOCTYPE html>
-
-<div class="loginBox">
-   <h3>Agregar Cliente</h3>
-   <form [formGroup]="client" (ngSubmit)="addClient()">
-     <div class="inputBox">
-       <input id="client" formControlName="client" type="text" name="Username" placeholder="Cliente">
-     </div> 
-       <input type="submit" [disabled]="client.invalid" name="" value="Enviar">
-   </form>
-   <div class="text-center">
-    <a routerLink="/home" style="color: #0f81ba;">volver al inicio</a>
+<div class="button-container">
+    <button routerLink="/add-client" type="button" class="btn btn-primary btn-lg">Agregar cliente</button>
+    <button routerLink="/register" type="button" class="btn btn-primary btn-lg">Registrar usuario</button>
 </div>
-   <app-spinner *ngIf="loading"></app-spinner>
- </div>

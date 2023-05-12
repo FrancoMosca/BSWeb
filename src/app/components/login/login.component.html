@@ -34,6 +34,9 @@
         <span *ngIf="userLogin.get('password')?.hasError('required') && userLogin.get('password')?.touched" class="text-danger labelError">
           <strong>*</strong>
         </span>
+        <!-- <span *ngIf="userLogin.get('password')?.hasError('minlength') && userLogin.get('password')?.touched" class="text-danger errorLabel">
+          La <strong>contraseña</strong> debe tener 6 caracteres
+        </span> -->
       </div>  
     </div> 
     <input type="submit" [disabled]="userLogin.invalid" name="" value="Iniciar sesión">
@@ -42,7 +45,3 @@
   <app-spinner *ngIf="loginService.loading"></app-spinner>
 </div>
 
-  <!-- 
-  <div class="text-center">
-    <a routerLink="/register" style="color: #0f81ba;">Registrarse</a>
-  </div> -->
