@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword} from '@angular/fire/auth';
-import { Firestore, arrayUnion, collection, doc, getDocs, updateDoc} from '@angular/fire/firestore';
+import { Firestore, arrayUnion, collection, doc, getDocs, setDoc, updateDoc} from '@angular/fire/firestore';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginService} from 'src/app/services/login.service';
 import { ClientService } from '../../services/client.service';
 import { ToastrService } from 'ngx-toastr';
 import { FirebaseCodeErrorService } from '../../services/firebase-code-error.service';
@@ -16,12 +15,18 @@ import { FirebaseCodeErrorService } from '../../services/firebase-code-error.ser
 export class RegisterComponent {
   registerUser: FormGroup;
   loading: boolean = false;
+  roles =[
+    {id:1, name:'sistema'},
+    {id:2, name:'administrador'},
+    {id:3, name:'cliente'},
+    {id:4, name:'vendedor'},
+    {id:5, name:'proveedor'}
+  ];
 
   constructor(
               private fb:FormBuilder,
               private afAuth: Auth,
               private router: Router,
-              private _loginService:LoginService,
               public _clientService:ClientService,
               private afStore:Firestore,
               private toastr: ToastrService,
@@ -33,6 +38,7 @@ export class RegisterComponent {
       password:['',[Validators.required, Validators.minLength(6)]],
       repeatPassword:['',Validators.required],
       clientsId:['',[Validators.required]],
+      userRole:['',[Validators.required]]
     })
     this.registerUser.get('clientsId')?.valueChanges.subscribe(val => {
       this._clientService.clientsId = val;
@@ -40,13 +46,19 @@ export class RegisterComponent {
   }
   ngOnInit(): void{}
 
+  public onCatChange(){
+    console.log(this.registerUser.value.userRole);
+  }
+
   async register(){
     const email = this.registerUser.value.email;
     const password = this.registerUser.value.password;
     const repeatPassword = this.registerUser.value.repeatPassword;
     const username=this.registerUser.value.username;
+    const userRole=this.registerUser.value.userRole -1;
     const clientId : string = this._clientService.clientsId.toLowerCase();
     const dbInstance = collection(this.afStore,'Clientes');
+    const dbInstanceUsers = collection(this.afStore,'Users');
     const docsID:Array<String> = []
     const docs = await getDocs(dbInstance)
     docs.forEach((doc) => {
@@ -69,12 +81,13 @@ export class RegisterComponent {
         const uid = this.afAuth.currentUser?.uid;
         const authData = {
           email: email,
-          uid: uid,
           username: username,
+          role:this.roles[userRole].name,
         }; 
       const docInstance = doc(dbInstance,clientId);
-      updateDoc(docInstance, { [`users`]: arrayUnion(authData)});
-      // this._loginService.login(email,password);
+      const docInstanceUser = doc(dbInstanceUsers,uid);
+      updateDoc(docInstance, { [`users`]: arrayUnion(uid)});
+      setDoc(docInstanceUser,authData);
     }).catch((error)=>{
       this.loading =false;
       this.toastr.error(this.firebaseError.codeError(error.code),'Error');

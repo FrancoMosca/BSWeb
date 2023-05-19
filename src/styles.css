@@ -69,7 +69,8 @@ h3{
     text-align: center!important;
 }
 
-.loginBox input,select{
+.loginBox input,
+.loginBox select{
     width: 100%;
     margin-bottom: 20px
 }
@@ -95,7 +96,7 @@ h3{
 
 .loginBox input[type="password"],
 
-select{
+.loginBox select[type="text"]{
     border: none;
     border-bottom: 2px solid #262626;
     outline: none;
@@ -111,7 +112,7 @@ select{
 
 .loginBox input[type="password"]:hover,
 
-select:hover{
+select[type="text"]:hover{
     color: #0f81ba;
     border: 1px solid #2ea4df;
     box-shadow: 0 0 5px #0f81ba, 0 0 10px #0d6794, 0 0 15px #2ea4df, 0 2px 0 black
@@ -151,7 +152,8 @@ select:focus{
     cursor: default;
 }
 
-.loginBox a{
+.loginBox a,
+.loginBox option{
     color: #636464;
     font-size: 14px;
     font-weight: bold;
@@ -164,7 +166,13 @@ a:hover{
     color: #0f81ba;
 }
 
-p{
+p,option{
     color: #0f81ba;
 }
+select:invalid {
+    color: gray; 
+}
 
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

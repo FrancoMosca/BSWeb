@@ -6,6 +6,9 @@ import { ForgottenPasswordComponent } from './components/forgotten-password/forg
 import { HomeComponent } from './components/home/home.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AddClientComponent } from './components/add-client/add-client.component';
+import { PortalComponent } from './components/portal/portal.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { CrudClientesComponent } from './components/crud-clientes/crud-clientes.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -15,6 +18,9 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'add-client', component: AddClientComponent },
+  { path: 'portal', component: PortalComponent },
+  { path: 'navbar', component: NavbarComponent },
+  { path: 'crud-clientes', component: CrudClientesComponent },
   { path: '**', component: LoginComponent },
 
 ];

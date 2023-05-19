@@ -34,25 +34,39 @@ export class LoginComponent implements OnInit {
     
   }
 
-  async login(){
+  async login() {
     const username = this.userLogin.value.username;
-    const dbInstance = collection(this.afStore,'Clientes')
-    const docInstance = doc(dbInstance, this._clientService.clientsId.toLowerCase())
-    const docSnapshot = await getDoc(docInstance)
+    const dbInstance = collection(this.afStore, 'Clientes');
+    const docInstance = doc(dbInstance, this._clientService.clientsId.toLowerCase());
+    const docSnapshot = await getDoc(docInstance);
+    const dbInstanceUsers = collection(this.afStore, 'Users');
+    const usersArray = [];
+  
     if (docSnapshot.exists()) {
-      const usersArray = docSnapshot.data()['users'];
-      let foundUser = false;
-      usersArray.forEach((user: { username: any;email:any }) => {
-        if (user.username == username.toLowerCase()) {
-          this.loginService.login(user.email,this.userLogin.value.password);
-          foundUser = true;
-        }
-      });
-      if (!foundUser) {
-        this.toastr.error('No existe ese usuario en el cliente','Error');
+      const data = docSnapshot.data();
+  
+      if (data && data['users'] && Array.isArray(data['users'])) {
+        usersArray.push(...data['users']);
       }
-    } else {
-      this.toastr.error('No existe ese cliente','Error');
+    }
+  
+    let foundUser = false;
+  
+    for (const user of usersArray) {
+      const docInstanceUsers = doc(dbInstanceUsers, user);
+      const docSnapshotUsers = await getDoc(docInstanceUsers);
+  
+      if (docSnapshotUsers.exists()) {
+        if (docSnapshotUsers.data()['username'] == username.toLowerCase()) {
+          foundUser = true;
+          return this.loginService.login(docSnapshotUsers.data()['email'], this.userLogin.value.password, this.userLogin.value.clientsId);
+        }
+      }
+    }
+  
+    if (!foundUser) {
+      this.toastr.error('No existe ese usuario en el cliente', 'Error');
     }
   }
+  
 }

@@ -22,6 +22,10 @@ import { ForgottenPasswordComponent } from './components/forgotten-password/forg
 import { HomeComponent } from './components/home/home.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AddClientComponent } from './components/add-client/add-client.component';
+import { PortalComponent } from './components/portal/portal.component';
+import { RoleDirective } from './directives/role.directive';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { CrudClientesComponent } from './components/crud-clientes/crud-clientes.component';
 
 
 
@@ -35,6 +39,10 @@ import { AddClientComponent } from './components/add-client/add-client.component
     HomeComponent,
     DashboardComponent,
     AddClientComponent,
+    PortalComponent,
+    RoleDirective,
+    NavbarComponent,
+    CrudClientesComponent,
   ],
   imports: [
     BrowserModule,
