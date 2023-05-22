@@ -12,11 +12,12 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class LoginComponent implements OnInit {
   userLogin: FormGroup;
+  isSubmitting = false;
   constructor(public loginService:LoginService,
               public fb:FormBuilder,
               public _clientService:ClientService,
               private afStore:Firestore,
-              private toastr:ToastrService)
+              public toastr:ToastrService)
         {
           this.userLogin = this.fb.group({
             username:['',[Validators.required]],
@@ -67,6 +68,27 @@ export class LoginComponent implements OnInit {
     if (!foundUser) {
       this.toastr.error('No existe ese usuario en el cliente', 'Error');
     }
+  }
+
+  submitForm() {
+    if (this.isSubmitting) {
+      return false;
+    }
+  
+    this.isSubmitting = true;
+    var submitButton = document.getElementById("submit");
+    if (submitButton instanceof HTMLButtonElement) {
+      submitButton.disabled = true; 
+    }
+    
+    setTimeout(() => {
+      this.isSubmitting = false;
+      if (submitButton instanceof HTMLButtonElement) {
+        submitButton.disabled = false;
+      }
+    }, 9000);
+  
+    return false;
   }
   
 }

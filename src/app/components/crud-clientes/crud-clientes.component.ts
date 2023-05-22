@@ -9,7 +9,7 @@ import { CRUDService } from 'src/app/services/crud.service';
 export class CrudClientesComponent implements OnInit {
   public clients: string[] = [];
 
-  constructor(private _crudService:CRUDService){
+  constructor(public _crudService:CRUDService){
   }
 
   ngOnInit(): void {

@@ -53,8 +53,8 @@
             </td>
             <td>{{ client }}</td>
             <td>
-              <a class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-              <a class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+              <a class="edit" type="button"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+              <a class="delete" type="button" (click)="_crudService.deleteClient(client)"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
             </td>
           </tr>
         </tbody>

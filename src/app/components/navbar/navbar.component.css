@@ -51,7 +51,6 @@
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
-  right: 0;
 }
 
 .dropdown-content a {
@@ -71,6 +70,19 @@
 
 .dropdown:hover .dropbtn {
   background: linear-gradient(to top, #1a1a1a, #1f1e1e);
+}
+
+.container {
+  position: relative;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+}
+
+h4 {
+  position: absolute;
+  color: #f8f7f76c;
+  margin: 0;
 }
 @media only screen and (max-width: 768px) {
 }

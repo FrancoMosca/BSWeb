@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Auth, signInWithEmailAndPassword, signOut} from '@angular/fire/auth';
+import { Auth, authState, signInWithEmailAndPassword, signOut} from '@angular/fire/auth';
 import { ToastrService } from 'ngx-toastr';
 import { FirebaseCodeErrorService } from './firebase-code-error.service';
 import { Firestore, collection, doc, getDoc, getDocs } from '@angular/fire/firestore';
@@ -26,11 +26,11 @@ export class LoginService{
     this.loading = true;
     signInWithEmailAndPassword(this.afAuth,email,password).then(()=>{
       this.isLoggedIn=true;
+      this.toastr.clear(); // Oculta las notificaciones anteriores
       this.toastr.success('Has iniciado sesión con exito','Inicio de sesión');
       this.getUserData();
       this.getClient(clientID).then((client) => {
-        this.client = client as string; // Asignar el valor de cliente a la propiedad this.client
-        console.log(this.client);
+        this.client = client as string;
         this.router.navigate(['/portal']);
       });
     }).catch((error)=>{
@@ -41,8 +41,9 @@ export class LoginService{
   }
 
   logout(){
-    signOut(this.afAuth).then(() => this.router.navigate(['/home']));
+    signOut(this.afAuth).then(() => this.router.navigate(['/login']));
     this.isLoggedIn= false;
+    this.loading=false
   } 
 
   async getUser() {
