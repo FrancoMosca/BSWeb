@@ -37,12 +37,9 @@ export class RegisterComponent {
       email:['',[Validators.required,Validators.email]],
       password:['',[Validators.required, Validators.minLength(6)]],
       repeatPassword:['',Validators.required],
-      clientsId:['',[Validators.required]],
+      client:['',[Validators.required]],
       userRole:['',[Validators.required]]
     })
-    this.registerUser.get('clientsId')?.valueChanges.subscribe(val => {
-      this._clientService.clientsId = val;
-    });
   }
   ngOnInit(): void{}
 
@@ -56,7 +53,7 @@ export class RegisterComponent {
     const repeatPassword = this.registerUser.value.repeatPassword;
     const username=this.registerUser.value.username;
     const userRole=this.registerUser.value.userRole -1;
-    const clientId : string = this._clientService.clientsId.toLowerCase();
+    const client= this.registerUser.value.client;
     const dbInstance = collection(this.afStore,'Clientes');
     const dbInstanceUsers = collection(this.afStore,'Users');
     const docsID:Array<String> = []
@@ -72,7 +69,7 @@ export class RegisterComponent {
         );
       return;
     }
-    if (docsID.includes(clientId)){
+    if (docsID.includes(client)){
       this.loading =true;
       createUserWithEmailAndPassword(this.afAuth,email, password)
       .then(async (user)=> {     
@@ -84,7 +81,7 @@ export class RegisterComponent {
           username: username,
           role:this.roles[userRole].name,
         }; 
-      const docInstance = doc(dbInstance,clientId);
+      const docInstance = doc(dbInstance,client);
       const docInstanceUser = doc(dbInstanceUsers,uid);
       updateDoc(docInstance, { [`users`]: arrayUnion(uid)});
       setDoc(docInstanceUser,authData);

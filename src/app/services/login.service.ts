@@ -19,19 +19,19 @@ export class LoginService{
               private afStore:Firestore,
               private toastr: ToastrService,
               private firebaseError:FirebaseCodeErrorService,
-              ){
-              }
+              ){}
 
-  login(email:any,password:any,clientID:any){
+  login(email:any,password:any,client:any){
     this.loading = true;
     signInWithEmailAndPassword(this.afAuth,email,password).then(()=>{
       this.isLoggedIn=true;
-      this.toastr.clear(); // Oculta las notificaciones anteriores
+      this.toastr.clear();
       this.toastr.success('Has iniciado sesión con exito','Inicio de sesión');
       this.getUserData();
-      this.getClient(clientID).then((client) => {
+      this.getClient(client).then((client) => {
         this.client = client as string;
-        this.router.navigate(['/portal']);
+        this.isLoggedIn=false;
+        this.router.navigate(['/portal']);  
       });
     }).catch((error)=>{
       this.loading =false;
@@ -82,19 +82,19 @@ export class LoginService{
     }
   }
 
-  async getClient(clientID: any): Promise<string | undefined> {
+  async getClient(client: string): Promise<string | undefined> {
     const userID = await this.getUser();
     const dbInstance = collection(this.afStore, 'Clientes');
-    const docInstance = doc(dbInstance, clientID);
-    const docSnapshot = await getDoc(docInstance);
-    if (docSnapshot.exists()) {
-      const users = docSnapshot.data()['users'];
+    const querySnapshot = await getDocs(dbInstance);
+    const clientDoc = querySnapshot.docs.find(
+      doc => doc.data()['nombre'].toLowerCase() === client.toLowerCase()
+    );
+    const users = clientDoc!.data()['users'];
       for (const user of users) {
         if (user === userID) {
-          return clientID;
+          return client;
         }
       }
-    }
     return undefined; // Si no se encuentra el cliente o no coincide el userID, se devuelve undefined
   }
 }

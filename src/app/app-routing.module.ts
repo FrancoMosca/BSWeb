@@ -5,10 +5,10 @@ import { RegisterComponent } from './components/register/register.component';
 import { ForgottenPasswordComponent } from './components/forgotten-password/forgotten-password.component';
 import { HomeComponent } from './components/home/home.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { AddClientComponent } from './components/add-client/add-client.component';
 import { PortalComponent } from './components/portal/portal.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CrudClientesComponent } from './components/crud-clientes/crud-clientes.component';
+import { ClientBoxComponent } from './components/client-box/client-box.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -17,12 +17,11 @@ const routes: Routes = [
   { path: 'forgotten-password', component: ForgottenPasswordComponent },
   { path: 'home', component: HomeComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'add-client', component: AddClientComponent },
   { path: 'portal', component: PortalComponent },
   { path: 'navbar', component: NavbarComponent },
   { path: 'crud-clientes', component: CrudClientesComponent },
+  { path: 'client-box', component: ClientBoxComponent },
   { path: '**', component: LoginComponent },
-
 ];
 
 @NgModule({

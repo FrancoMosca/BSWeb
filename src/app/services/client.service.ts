@@ -6,7 +6,6 @@ import { Firestore, collection, getDocs } from '@angular/fire/firestore';
 })
 export class ClientService implements OnInit {
   public clients: any[] = [];
-  public clientsId : string= '';
 
   constructor(private afStore: Firestore) { 
     this.ngOnInit();

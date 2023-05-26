@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ClientService } from '../../services/client.service'
-import { Firestore, collection, doc, getDoc} from '@angular/fire/firestore';
+import { Firestore, collection, doc, getDoc, getDocs} from '@angular/fire/firestore';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -22,13 +22,8 @@ export class LoginComponent implements OnInit {
           this.userLogin = this.fb.group({
             username:['',[Validators.required]],
             password:['',[Validators.required, Validators.minLength(6)]],
-            clientsId:['',[Validators.required]],
+            client:['',[Validators.required]],
           });
-
-          this.userLogin.get('clientsId')?.valueChanges.subscribe(val => {
-            this._clientService.clientsId = val;
-          });
-          
         }
   
   ngOnInit(): void {
@@ -37,38 +32,48 @@ export class LoginComponent implements OnInit {
 
   async login() {
     const username = this.userLogin.value.username;
+    const client = this.userLogin.value.client;
     const dbInstance = collection(this.afStore, 'Clientes');
-    const docInstance = doc(dbInstance, this._clientService.clientsId.toLowerCase());
-    const docSnapshot = await getDoc(docInstance);
-    const dbInstanceUsers = collection(this.afStore, 'Users');
-    const usersArray = [];
+    const querySnapshot = await getDocs(dbInstance);
   
-    if (docSnapshot.exists()) {
-      const data = docSnapshot.data();
+    const clientDoc = querySnapshot.docs.find(doc => doc.data()['nombre'].toLowerCase() === client.toLowerCase());
   
-      if (data && data['users'] && Array.isArray(data['users'])) {
-        usersArray.push(...data['users']);
-      }
-    }
+    if (clientDoc) {
+      const docInstance = doc(dbInstance, clientDoc.id);
+      const docSnapshot = await getDoc(docInstance);
   
-    let foundUser = false;
+      if (docSnapshot.exists()) {
+        const data = docSnapshot.data();
   
-    for (const user of usersArray) {
-      const docInstanceUsers = doc(dbInstanceUsers, user);
-      const docSnapshotUsers = await getDoc(docInstanceUsers);
+        if (data && data['users'] && Array.isArray(data['users'])) {
+          const dbInstanceUsers = collection(this.afStore, 'Users');
+          const usersArray = data['users'];
   
-      if (docSnapshotUsers.exists()) {
-        if (docSnapshotUsers.data()['username'] == username.toLowerCase()) {
-          foundUser = true;
-          return this.loginService.login(docSnapshotUsers.data()['email'], this.userLogin.value.password, this.userLogin.value.clientsId);
+          let foundUser = false;
+  
+          for (const user of usersArray) {
+            const docInstanceUsers = doc(dbInstanceUsers, user);
+            const docSnapshotUsers = await getDoc(docInstanceUsers);
+  
+            if (docSnapshotUsers.exists() && docSnapshotUsers.data()['username'].toLowerCase() === username.toLowerCase()) {
+              foundUser = true;
+              return this.loginService.login(docSnapshotUsers.data()['email'], this.userLogin.value.password, client);
+            }
+          }
+  
+          if (!foundUser) {
+            this.toastr.error('No existe ese usuario en el cliente', 'Error');
+          }
         }
       }
-    }
-  
-    if (!foundUser) {
-      this.toastr.error('No existe ese usuario en el cliente', 'Error');
+    } else {
+      this.toastr.error('No existe el cliente', 'Error');
     }
   }
+  
+  
+  
+  
 
   submitForm() {
     if (this.isSubmitting) {

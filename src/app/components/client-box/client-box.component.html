@@ -1,0 +1,13 @@
+<table class="table table-striped table-hover">
+<tbody>
+    <tr *ngFor="let client of clients">
+      <ng-container *ngIf="client.nombre === 'sistema' || client.activo">
+        <td>{{ client.nombre }}</td>
+        <td>
+          <a class="edit" type="button" (click)="_modalService.openModifyClientModal(client)"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+          <a class="delete" type="button" (click)="_crudService.deleteClient(client)"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+        </td>
+      </ng-container>
+    </tr>
+</tbody>
+</table>
