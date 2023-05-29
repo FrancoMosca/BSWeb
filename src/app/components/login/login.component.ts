@@ -70,10 +70,6 @@ export class LoginComponent implements OnInit {
       this.toastr.error('No existe el cliente', 'Error');
     }
   }
-  
-  
-  
-  
 
   submitForm() {
     if (this.isSubmitting) {

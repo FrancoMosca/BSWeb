@@ -8,7 +8,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PortalComponent } from './components/portal/portal.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CrudClientesComponent } from './components/crud-clientes/crud-clientes.component';
-import { ClientBoxComponent } from './components/client-box/client-box.component';
+import { CrudUsuariosComponent } from './components/crud-usuarios/crud-usuarios.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -20,7 +20,7 @@ const routes: Routes = [
   { path: 'portal', component: PortalComponent },
   { path: 'navbar', component: NavbarComponent },
   { path: 'crud-clientes', component: CrudClientesComponent },
-  { path: 'client-box', component: ClientBoxComponent },
+  { path: 'crud-usuarios', component: CrudUsuariosComponent },
   { path: '**', component: LoginComponent },
 ];
 

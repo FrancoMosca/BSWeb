@@ -14,12 +14,7 @@ export class CRUDService {
   usersInstance = collection(this.afStore, 'Users');
   constructor(private afStore: Firestore,
               public afAuth: Auth,
-              ) {
-                // const serviceAccount = require('../credentials/fir-login-cf2d2-firebase-adminsdk-pl1nk-263563ac46.json');
-                // admin.initializeApp({
-                //   credential: admin.credential.cert(serviceAccount),
-                // });      
-  }
+              ) {}
   
   addClient(client: any) {
     const docInstance = doc(this.dbInstance);
@@ -113,24 +108,17 @@ export class CRUDService {
 
   }
 
+  async getUsers(){
+    const dbInstance = collection(this.afStore, 'Users');
+    const usersArray: any[] = [];
+    const querySnapshot = await getDocs(dbInstance);
 
-
-  // async deleteUsersFAuth(users:any[]){
-  //   // const deleteUserPromises = [];
-
-  //   // for (const user of users) {
-  //   // const deleteUserPromise = admin.auth().deleteUser(user);
-  //   // deleteUserPromises.push(deleteUserPromise);
-  //   // }
-  //   // Promise.all(deleteUserPromises)
-  //   // .then(() => {
-  //   //   // Todos los usuarios se han borrado correctamente
-  //   //   console.log("se borro")
-  //   // })
-  //   // .catch((error) => {
-  //   //   // Manejo de errores al intentar borrar los usuarios
-  //   //   console.log("error",error)
-  //   // });
-  // }
-
+    querySnapshot.forEach((doc) => {
+      const userId = doc.id;
+      const userData = doc.data();
+      const user = {id:userId,username:userData['username'], email:userData['email'],role:userData['role']}
+      usersArray.push(user);
+    });
+    return usersArray;  
+  }
 }

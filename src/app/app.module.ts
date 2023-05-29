@@ -27,7 +27,7 @@ import { RoleDirective } from './directives/role.directive';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CrudClientesComponent } from './components/crud-clientes/crud-clientes.component';
 import { ModifyClientComponent } from './components/modify-client/modify-client.component';
-import { ClientBoxComponent } from './components/client-box/client-box.component';
+import { CrudUsuariosComponent } from './components/crud-usuarios/crud-usuarios.component';
 
 
 
@@ -46,7 +46,7 @@ import { ClientBoxComponent } from './components/client-box/client-box.component
     NavbarComponent,
     CrudClientesComponent,
     ModifyClientComponent,
-    ClientBoxComponent,
+    CrudUsuariosComponent,
   ],
   imports: [
     BrowserModule,
