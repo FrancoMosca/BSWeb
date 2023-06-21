@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddClientComponent } from '../components/add-client/add-client.component';
 import { ModifyClientComponent } from '../components/modify-client/modify-client.component';
-import { RegisterComponent } from '../components/register/register.component';
+import { AddUserComponent } from '../components/add-user/add-user.component';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +33,7 @@ export class ModalService {
   }
 
   openAddUserModal() {
-    const modalRef = this._modalService.open(RegisterComponent);
+    const modalRef = this._modalService.open(AddUserComponent);
     modalRef.result.then((result) => {
       console.log(result);
     }).catch((error) => {

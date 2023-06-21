@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<app-navbar></app-navbar>
+<app-sub-navbar></app-sub-navbar>
+<div *ngIf="dato === 'client'">
+    <div class="client-box">
+    <div class="centered">
+        <h2>Modificar {{client.nombre}}</h2>
+    </div>
+    <form>
+        <div class="grid-form">
+        <div *ngFor="let field of getSortedFields(client)">
+            <ng-container *ngIf="!isFieldArray(client,field)">
+            <div class="item">
+                <label for="{{field}}">{{field | capitalize}}:</label>
+                <div class="inputBox">
+                <ng-container *ngIf="isBooleanField(client,field)">
+                    <mat-slide-toggle [(ngModel)]="client[field]" name="{{field}}"></mat-slide-toggle>
+                </ng-container>
+                <ng-container *ngIf="!isBooleanField(client,field)">
+                    <input type="text" id="{{field}}" [(ngModel)]="client[field]" name="{{field}}" [readonly]="isFieldReadonly(field)">
+                </ng-container>
+                </div>
+            </div>
+            </ng-container>
+        </div>
+        </div>
+        <input type="submit" name="" value="Guardar Cambios" (click)="modifyClient(client)">
+    </form>
+    <a [routerLink]="['/crud']" [queryParams]="{ dato: 'client' }">Volver al CRUD<br> </a>
+    </div>
+</div>
+
+<div *ngIf="dato === 'user'">
+    <div class="client-box">
+        <div class="centered">
+          <h2>Modificar {{user.username}}</h2>
+        </div>
+        <form>
+          <div class="grid-form">
+            <div *ngFor="let field of getSortedFields(user)">
+              <ng-container *ngIf="!isFieldArray(user,field)">
+                <div class="item">
+                  <label for="{{field}}">{{field | capitalize}}:</label>
+                  <div class="inputBox">
+                    <ng-container *ngIf="isBooleanField(user,field)">
+                      <mat-slide-toggle [(ngModel)]="user[field]" name="{{field}}"></mat-slide-toggle>
+                    </ng-container>
+                    <ng-container *ngIf="!isBooleanField(user,field) && field !== 'role'">
+                      <input type="text" id="{{field}}" [(ngModel)]="user[field]" name="{{field}}" [readonly]="isFieldReadonly(field)">
+                    </ng-container>
+                    <ng-container *ngIf="field === 'role'">
+                      <select [(ngModel)]="user[field]" name="{{field}}">
+                        <option *ngFor="let role of _rolesService.roles" [value]="role.name">{{ role.name }}</option>
+                      </select>
+                    </ng-container>                                        
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+          <input type="submit" name="" value="Guardar Cambios" (click)="modifyUser(user)"> 
+        </form>  
+        <a [routerLink]="['/crud']" [queryParams]="{ dato: 'user' }">Volver al CRUD<br> </a>
+    </div>      
+</div>

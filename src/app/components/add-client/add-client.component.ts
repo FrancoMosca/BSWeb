@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { CRUDService } from 'src/app/services/crud.service';
 
 @Component({
@@ -10,21 +9,15 @@ import { CRUDService } from 'src/app/services/crud.service';
 })
 export class AddClientComponent{
   client: FormGroup;
-  loading:boolean =false;
- 
 
-  constructor(private router:Router,
-              private fb: FormBuilder,
-              private crud:CRUDService){
+  constructor(private fb: FormBuilder,
+              public crud:CRUDService){
     this.client = this.fb.group({
-      client:['',[Validators.required]]
+      nombre:['',[Validators.required]],
+      telefono:['',[Validators.required]],
+      email:['',[Validators.required,Validators.email]],
+      direccion:['',[Validators.required]],
     })
-  }
-  
-  addClient(){
-    const client = this.client.value.client;
-    this.crud.addClient(client);
-    this.loading =true;
   }
 
 }

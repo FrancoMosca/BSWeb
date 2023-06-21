@@ -1,7 +1,21 @@
 .button-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh; /* ajusta la altura del contenedor según sea necesario */
-  }
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  width: 20%;
+  height: 80vh;
+  margin-top: 15px;
+}
   
+[type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+  cursor: pointer;
+  background: linear-gradient(to top, #1a1a1ade, #1f1e1eb5);
+  border: none;
+  border-radius: 2px;
+  height: 10%;
+}
+
+.content{
+  margin-left: 20%;
+  height: calc(100% - 80px);
+}

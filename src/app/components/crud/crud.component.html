@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<app-navbar></app-navbar>
+<app-sub-navbar></app-sub-navbar>
+<div *ngIf="dato === 'user'">
+  <div class="container" tabindex="-1">
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div class="row">
+          <div class="col-sm-6">
+            <h2>CRUD <b>Usuarios</b></h2>
+          </div>
+        </div>
+      </div>
+      <table class="table table-hover" tabindex="0" #table>
+        <thead>
+          <tr>
+            <th>Usuario</th>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>
+              <div class="th-button">
+                <a class="btn" data-toggle="modal" (click)="addUser()" (keyup.enter)="addUser()" role="button"
+                  tabindex="0">
+                  <i class="material-icons"></i>
+                  <span>Agregar Usuario</span>
+                </a>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of activeUsers; let i = index" [ngClass]="{'highlighted-row': i === currentRowIndex}">
+            <td>{{ user.username }}</td>
+            <td>{{ user.authID }}</td>
+            <td>{{ user.client }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.role }}</td>
+            <td>
+              <a class="edit" type="button" (click)="editUser(user)" (keyup.enter)="editUser(user)">
+                <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
+              </a>
+              <a class="delete" type="button" (click)="deleteUser(user)" (keyup.enter)="deleteUser(user)">
+                <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div *ngIf="dato === 'client'">
+  <div class="container" tabindex="-1">
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div class="row">
+          <div class="col-sm-6">
+            <h2>CRUD <b>Clientes</b></h2>
+          </div>
+        </div>
+      </div>
+      <table class="table table-hover" tabindex="0" #table>
+        <thead>
+          <tr>
+            <th>Cliente</th>
+            <th>ID</th>
+            <th>
+              <div class="th-button">
+                <a class="btn" data-toggle="modal" (click)="addClient()" (keyup.enter)="addClient()" tabindex="0">
+                  <i class="material-icons"></i> <span>Agregar Cliente</span>
+                </a>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let client of activeClients; let i = index" [ngClass]="{'highlighted-row': i === currentRowIndex}">
+            <ng-container *ngIf="client.nombre === 'Sistema' || client.activo">
+              <td>{{ client.nombre }}</td>
+              <td>{{ client.id }}</td>
+              <td style="text-align: right;">
+                <a class="edit" type="button" (click)="editClient(client)" (keyup.enter)="editClient(client)">
+                  <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
+                </a>
+                <a class="delete" type="button" (click)="deleteClient(client)" (keyup.enter)="deleteClient(client)">
+                  <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                </a>
+              </td>
+            </ng-container>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

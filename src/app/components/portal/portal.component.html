@@ -1,18 +1,18 @@
 <app-navbar></app-navbar>
-<div *appRole="'sistema'">
+<app-sub-navbar></app-sub-navbar>
+<div *appRole="'Sistema'">
     <app-dashboard></app-dashboard>
-    <!-- <app-crud-clientes></app-crud-clientes> -->
 </div>
 
-<div *appRole="'administrador'">
+<div *appRole="'Administrador'">
+    <app-dashboard></app-dashboard>
 </div>
 
-
-<div *appRole="'cliente'">
+<div *appRole="'Cliente'">
 </div>
   
-<div *appRole="'vendedor'">
+<div *appRole="'Vendedor'">
 </div>
 
-<div *appRole="'proveedor'">
+<div *appRole="'Proveedor'">
 </div>

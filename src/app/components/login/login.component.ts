@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ClientService } from '../../services/client.service'
-import { Firestore, collection, doc, getDoc, getDocs} from '@angular/fire/firestore';
+import { Firestore, arrayUnion, collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc, query, where} from '@angular/fire/firestore';
 import { ToastrService } from 'ngx-toastr';
+import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -13,11 +15,13 @@ import { ToastrService } from 'ngx-toastr';
 export class LoginComponent implements OnInit {
   userLogin: FormGroup;
   isSubmitting = false;
-  constructor(public loginService:LoginService,
+  constructor(public _loginService:LoginService,
               public fb:FormBuilder,
               public _clientService:ClientService,
               private afStore:Firestore,
-              public toastr:ToastrService)
+              private afAuth:Auth,
+              public toastr:ToastrService,
+              private router:Router)
         {
           this.userLogin = this.fb.group({
             username:['',[Validators.required]],
@@ -33,9 +37,12 @@ export class LoginComponent implements OnInit {
   async login() {
     const username = this.userLogin.value.username;
     const client = this.userLogin.value.client;
+    const password = this.userLogin.value.password;
     const dbInstance = collection(this.afStore, 'Clientes');
     const querySnapshot = await getDocs(dbInstance);
-  
+    const addUsersInstance = collection(this.afStore, 'addUsers');
+    const addUsersquerySnapshot = await getDocs(addUsersInstance);
+    
     const clientDoc = querySnapshot.docs.find(doc => doc.data()['nombre'].toLowerCase() === client.toLowerCase());
   
     if (clientDoc) {
@@ -52,17 +59,61 @@ export class LoginComponent implements OnInit {
           let foundUser = false;
   
           for (const user of usersArray) {
-            const docInstanceUsers = doc(dbInstanceUsers, user);
-            const docSnapshotUsers = await getDoc(docInstanceUsers);
-  
-            if (docSnapshotUsers.exists() && docSnapshotUsers.data()['username'].toLowerCase() === username.toLowerCase()) {
-              foundUser = true;
-              return this.loginService.login(docSnapshotUsers.data()['email'], this.userLogin.value.password, client);
+            const docQuery = query(dbInstanceUsers, where('authID', '==', user));
+            const querySnapshotUsers = await getDocs(docQuery);
+          
+            if (!querySnapshotUsers.empty) {
+              const docSnapshotUsers = querySnapshotUsers.docs[0];
+          
+              if (docSnapshotUsers.data()['username'].toLowerCase() === username.toLowerCase() && docSnapshotUsers.data()['activo']) {
+                foundUser = true;
+                return this._loginService.login(docSnapshotUsers.data()['email'], this.userLogin.value.password);
+              }
             }
           }
   
           if (!foundUser) {
-            this.toastr.error('No existe ese usuario en el cliente', 'Error');
+            const foundDoc = addUsersquerySnapshot.docs.find(
+              (doc) =>
+                doc.data()['username'].toLowerCase() === username.toLowerCase() &&
+                doc.data()['client'].toLowerCase() === client.toLowerCase() &&
+                doc.data()['password'] === password
+            );
+  
+            if (foundDoc) {
+              this._loginService.loading = true;
+              createUserWithEmailAndPassword(this.afAuth, foundDoc.data()['email'], password)
+                .then(async (user) => {
+                  this.router.navigate(['/portal']);
+                  const uid = this.afAuth.currentUser?.uid;
+                  const authData = {
+                    authID: uid,
+                  };
+                  const docInstance = doc(dbInstance,clientDoc.id);
+                  updateDoc(docInstance, { [`users`]: arrayUnion(uid)});
+                  let docInstanceUser;
+                  const docQuery = query(dbInstanceUsers,
+                    where('email', '==', foundDoc.data()['email']),
+                    where('username', '==', foundDoc.data()['username']),
+                    where('client', '==', client)
+                  );
+                  const querySnapshotUser = await getDocs(docQuery);
+
+                  if (!querySnapshotUser.empty) {
+                    docInstanceUser = querySnapshotUser.docs[0].ref;
+                  }
+
+                  if (docInstanceUser) {
+                    await updateDoc(docInstanceUser, authData);
+                  }
+                  const deleteDocInstance = doc(addUsersInstance, foundDoc.id);
+                  await deleteDoc(deleteDocInstance);
+
+                  await this._loginService.login(foundDoc.data()['email'],password);
+              });
+            } else {
+              this.toastr.error('No existe ese usuario en el cliente', 'Error');
+            }
           }
         }
       }
@@ -70,7 +121,7 @@ export class LoginComponent implements OnInit {
       this.toastr.error('No existe el cliente', 'Error');
     }
   }
-
+  
   submitForm() {
     if (this.isSubmitting) {
       return false;

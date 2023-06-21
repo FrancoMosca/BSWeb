@@ -1,12 +1,22 @@
-body { 
-    min-height: 100vh!important;
-    height: 100%!important;
+body {
+    min-height: 100vh !important;
+    height: 100% !important;
     margin: 0;
-    font-family: Roboto, "Barlow Semi Condensed", sans-serif!important;
+    font-family: Roboto, "Barlow Semi Condensed", sans-serif !important;
     background-image: radial-gradient(circle at 28.39% 12.57%, #0488c0 0, #0580b9 25%, #17547b 50%, #17547b 75%, #132e44 100%);
+    overflow: hidden;
 }
 
-.labelError{
+body, html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.labelError {
     position: absolute;
     width: 20px;
     height: 20px;
@@ -16,33 +26,11 @@ body {
     margin-left: 5px;
 }
 
-body{
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    font-family: sans-serif;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    overflow: hidden;
-}
-
-@media screen and (max-width: 600px){
-    body{
-        background-size: cover;
-    }
-}
-
-#particles-js{
-    height: 100%
-}
-
-.loginBox{
+.loginBox, .client-box {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
-    width: 350px;
+    transform: translate(-50%, -50%);
     min-height: 200px;
     background-image: linear-gradient(to top, #1a1a1a, #1f1e1e);
     border-radius: 10px;
@@ -51,31 +39,71 @@ body{
     box-shadow: 0 2px 4px rgba(0, 2, 0, 0.4);
 }
 
-.logo{
+.loginBox {
+    width: 350px;
+}
+
+.client-box {
+    width: 70%;
+}
+
+.logo,
+.logo-menu{
     margin: 0 auto;
     display: block;
-    margin-bottom: 5px
+    margin-bottom: 5px;
+}
+.logo-nav:hover{
+    filter: brightness(70%);
 }
 .titulo{
     margin: 0 auto;
     display: block;
-    margin-bottom: 40px
+    margin-bottom: 40px;
 }
 
-h3{
-    margin: 0!important;
-    padding: 0 0 20px!important;
-    color: #fff!important;
-    text-align: center!important;
+h3 {
+    margin: 0 !important;
+    padding: 0 0 20px !important;
+    color: #fff !important;
+    text-align: center !important;
 }
 
 .loginBox input,
-.loginBox select{
+.client-box input,
+.client-box select {
     width: 100%;
-    margin-bottom: 20px
+    margin-bottom: 20px;
+    border: none;
+    border-bottom: 2px solid #262626;
+    outline: none;
+    height: 40px;
+    color: #fff;
+    background: transparent;
+    font-size: 16px;
+    padding-left: 20px;
+    box-sizing: border-box;
 }
 
-.input-wrapper {
+.loginBox input[type="text"]:hover,
+.loginBox input[type="password"]:hover,
+.client-box input[type="text"]:hover,
+.client-box input[type="password"]:hover,
+.client-box select:hover{
+    color: #0f81ba;
+    border: 1px solid #2ea4df;
+    box-shadow: 0 0 5px #0f81ba, 0 0 10px #0d6794, 0 0 15px #2ea4df, 0 2px 0 black;
+}
+
+.loginBox input[type="text"]:focus,
+.loginBox input[type="password"]:focus,
+.client-box input[type="text"]:focus,
+.client-box input[type="password"]:focus
+{
+    border-bottom: 2px solid #0f81ba;
+}
+
+.input-wrapper, .inputBox {
     position: relative;
 }
 
@@ -92,51 +120,8 @@ h3{
     fill: #626464;
 }
 
-.loginBox input[type="text"],
-
-.loginBox input[type="password"],
-
-.loginBox select[type="text"]{
-    border: none;
-    border-bottom: 2px solid #262626;
-    outline: none;
-    height: 40px;
-    color: #fff;
-    background: transparent;
-    font-size: 16px;
-    padding-left: 20px;
-    box-sizing: border-box
-}
-
-.loginBox input[type="text"]:hover,
-
-.loginBox input[type="password"]:hover,
-
-select[type="text"]:hover{
-    color: #0f81ba;
-    border: 1px solid #2ea4df;
-    box-shadow: 0 0 5px #0f81ba, 0 0 10px #0d6794, 0 0 15px #2ea4df, 0 2px 0 black
-}
-
-.loginBox input[type="text"]:focus,
-
-.loginBox input[type="password"]:focus
-
-select:focus{
-    border-bottom: 2px solid #0f81ba;
-}
-
-.inputBox{
-    position: relative
-}
-
-.inputBox span{
-    position: absolute;
-    top: 10px;
-    color: #262626
-}
-
-.loginBox input[type="submit"]{
+.loginBox input[type="submit"],
+.client-box input[type="submit"] {
     border: none;
     outline: none;
     height: 40px;
@@ -144,45 +129,107 @@ select:focus{
     background: #0580b9;
     color: #fff;
     border-radius: 20px;
-    cursor: pointer
+    cursor: pointer;
 }
 
-.loginBox input[type="submit"][disabled] {
-    background-color: #0580b998; 
+.loginBox input[type="submit"][disabled],
+.client-box input[type="submit"][disabled] {
+    background-color: #0580b998;
     cursor: default;
 }
 
 .loginBox a,
-.loginBox option{
+.client-box a{
     color: #636464;
     font-size: 14px;
     font-weight: bold;
     text-decoration: none;
     text-align: center;
-    display: block
+    display: block;
 }
 
-a:hover{
+.client-box option {
+    background-color: #1f1e1e;
+    color: white;
+}
+
+a:hover {
     color: #0f81ba;
 }
 
-p,option{
+p, option {
     color: #0f81ba;
 }
+
 select:invalid {
-    color: gray; 
+    color: gray;
 }
 
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-.modal-content{
+.modal-content {
     background: transparent !important;
     border: none !important;
 }
-app-spinner{
+
+app-spinner {
     display: flex;
     justify-content: center;
     margin-top: 20px;
+}
+
+.centered {
+    text-align: center;
+    color: white;
+}
+
+.input-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.input-row label {
+    margin-right: 10px;
+}
+
+.grid-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+    width: 100%;
+    margin-top: 30px;
+    float: left;
+    color:white;
+    grid-template-rows: 3fr;
+    max-height: 22.5em; /* Establece la altura máxima para 3 filas */
+    overflow: auto;
+}
+.submit-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    height: 100%;
+    width: 100%;
+}
+
+.grid-form::-webkit-scrollbar {
+    width: 8px; /* Ajusta el ancho de la barra de desplazamiento */
+}
+
+.grid-form::-webkit-scrollbar-track {
+    background-color: #0a0a0a; /* Cambia el color de fondo de la barra de desplazamiento */
+}
+
+.grid-form::-webkit-scrollbar-thumb {
+    background-color: #474747; /* Cambia el color del pulgar de la barra de desplazamiento */
+    border-radius: 4px; /* Agrega bordes redondeados al pulgar de la barra de desplazamiento */
+}
+
+.grid-form::-webkit-scrollbar-thumb:hover {
+    background-color: #5f5e5e; /* Cambia el color del pulgar de la barra de desplazamiento al pasar el mouse sobre él */
+}
+
+.input-wrapper:focus-within {
+    border-color: black;
+    border-width: 10px;
 }

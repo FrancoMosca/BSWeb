@@ -10,13 +10,14 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 //COMPONENTES
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
+import { AddUserComponent } from './components/add-user/add-user.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { ForgottenPasswordComponent } from './components/forgotten-password/forgotten-password.component';
 import { HomeComponent } from './components/home/home.component';
@@ -25,17 +26,16 @@ import { AddClientComponent } from './components/add-client/add-client.component
 import { PortalComponent } from './components/portal/portal.component';
 import { RoleDirective } from './directives/role.directive';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { CrudClientesComponent } from './components/crud-clientes/crud-clientes.component';
-import { ModifyClientComponent } from './components/modify-client/modify-client.component';
-import { CrudUsuariosComponent } from './components/crud-usuarios/crud-usuarios.component';
-
-
+import { CapitalizePipe } from './directives/capitalize.pipe';
+import { SubNavbarComponent } from './components/sub-navbar/sub-navbar.component';
+import { CRUDComponent } from './components/crud/crud.component';
+import { ModifyComponent } from './components/modify/modify.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterComponent,
+    AddUserComponent,
     SpinnerComponent,
     ForgottenPasswordComponent,
     HomeComponent,
@@ -44,9 +44,10 @@ import { CrudUsuariosComponent } from './components/crud-usuarios/crud-usuarios.
     PortalComponent,
     RoleDirective,
     NavbarComponent,
-    CrudClientesComponent,
-    ModifyClientComponent,
-    CrudUsuariosComponent,
+    CapitalizePipe,
+    SubNavbarComponent,
+    CRUDComponent,
+    ModifyComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,7 +61,7 @@ import { CrudUsuariosComponent } from './components/crud-usuarios/crud-usuarios.
     NgbModalModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-   
+    MatSlideToggleModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

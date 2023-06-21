@@ -1,53 +1,50 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Auth, authState, signInWithEmailAndPassword, signOut} from '@angular/fire/auth';
+import { Auth, signInWithEmailAndPassword, signOut} from '@angular/fire/auth';
 import { ToastrService } from 'ngx-toastr';
 import { FirebaseCodeErrorService } from './firebase-code-error.service';
-import { Firestore, collection, doc, getDoc, getDocs } from '@angular/fire/firestore';
+import { Firestore, collection, getDocs, query, where } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService{
-  isLoggedIn: Boolean = false;
+export class LoginService {
+  isLoggedIn: boolean = false;
   loading: boolean = false;
   systemUser = false;
   client!: string;
-  constructor(
-              private router: Router,
-              private afAuth: Auth,
-              private afStore:Firestore,
-              private toastr: ToastrService,
-              private firebaseError:FirebaseCodeErrorService,
-              ){}
 
-  login(email:any,password:any,client:any){
+  constructor(
+    private router: Router,
+    private afAuth: Auth,
+    private afStore: Firestore,
+    private toastr: ToastrService,
+    private firebaseError: FirebaseCodeErrorService,
+  ) {}
+
+  async login(email: any, password: any) {
     this.loading = true;
-    signInWithEmailAndPassword(this.afAuth,email,password).then(()=>{
-      this.isLoggedIn=true;
+    signInWithEmailAndPassword(this.afAuth, email, password).then(async () => {
+      this.isLoggedIn = true;
       this.toastr.clear();
-      this.toastr.success('Has iniciado sesión con exito','Inicio de sesión');
-      this.getUserData();
-      this.getClient(client).then((client) => {
-        this.client = client as string;
-        this.isLoggedIn=false;
-        this.router.navigate(['/portal']);  
-      });
-    }).catch((error)=>{
-      this.loading =false;
-      console.log(error);
-      this.toastr.error(this.firebaseError.codeError(error.code),'Error');
+      this.toastr.success('Has iniciado sesión con éxito', 'Inicio de sesión');
+      await this.getUserData();
+      this.isLoggedIn = false;
+      this.router.navigate(['/portal']);
+    }).catch((error: any) => {
+      this.loading = false;
+      this.toastr.error(this.firebaseError.codeError(error.code), 'Error');
     });
   }
 
-  logout(){
+  logout() {
     signOut(this.afAuth).then(() => this.router.navigate(['/login']));
-    this.isLoggedIn= false;
-    this.loading=false
-  } 
+    this.isLoggedIn = false;
+    this.loading = false;
+  }
 
-  async getUser() {
-    return new Promise((resolve, reject) => {
+  async getUser(): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
       this.afAuth.onAuthStateChanged((user) => {
         if (user) {
           const uid = user.uid;
@@ -57,44 +54,30 @@ export class LoginService{
         }
       });
     });
-  }  
+  }
 
-  async getUserData(){
+  async getUserData() {
     try {
       const userID = await this.getUser();
-      const dbInstance = collection(this.afStore, 'Users');
-      const docInstance = doc(dbInstance, userID as string);
-      const docSnapshot = await getDoc(docInstance);
-      if (docSnapshot.exists()) {
-        const userData = docSnapshot.data();
-        const role = userData['role'];
-        const username = userData['username'];
-        const email = userData['email'];
-        const user = {'email':email,'role':role,'username':username}
-        return user;
-      } else {
-        console.log('El documento no existe');
-        return null;
+      const docQuery = query(collection(this.afStore, 'Users'), where('authID', '==', userID));
+      let querySnapshot = await getDocs(docQuery);
+
+      while (querySnapshot.empty) {
+        // Esperar un tiempo antes de realizar la siguiente consulta
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        // Realizar la consulta nuevamente
+        querySnapshot = await getDocs(docQuery);
       }
+
+      const docSnapshot = querySnapshot.docs[0];
+      const userData = docSnapshot.data();
+      const { role, username, email, client } = userData;
+      const user = { email, role, username, client };
+      return user;
     } catch (error) {
       console.error(error);
       return null;
     }
-  }
-
-  async getClient(client: string): Promise<string | undefined> {
-    const userID = await this.getUser();
-    const dbInstance = collection(this.afStore, 'Clientes');
-    const querySnapshot = await getDocs(dbInstance);
-    const clientDoc = querySnapshot.docs.find(
-      doc => doc.data()['nombre'].toLowerCase() === client.toLowerCase()
-    );
-    const users = clientDoc!.data()['users'];
-      for (const user of users) {
-        if (user === userID) {
-          return client;
-        }
-      }
-    return undefined; // Si no se encuentra el cliente o no coincide el userID, se devuelve undefined
   }
 }

@@ -1,4 +1,7 @@
-<div class="button-container">
-    <button routerLink="/crud-clientes" type="button" class="btn btn-primary btn-lg">CRUD clientes</button>
-    <button routerLink="/crud-usuarios" type="button" class="btn btn-primary btn-lg">CRUD usuarios</button>
+<div class="content">
+    <div class="button-container">
+        <button [routerLink]="['/crud']" [queryParams]="{ dato: 'client' }" type="button" class="btn btn-primary btn-lg" tabindex="1">CRUD clientes</button>
+        <button [routerLink]="['/crud']" [queryParams]="{ dato: 'user' }" type="button" class="btn btn-primary btn-lg" tabindex="2">CRUD usuarios</button>
+    </div>
 </div>
+  

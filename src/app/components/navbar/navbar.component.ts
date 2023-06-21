@@ -9,18 +9,16 @@ import { LoginService } from 'src/app/services/login.service';
 export class NavbarComponent implements OnInit{
   public role!:string;
   public username!:string;
-  public client : string = this._loginService.client;
+  public client!: string;
   constructor(public _loginService:LoginService){
-
   }
   
   ngOnInit(): void {
     this._loginService.getUserData().then(user => {
       this.role = user?.role || '';
       this.username = user?.username || '';
+      this.client = user?.client || '';
     });
   }
-  
-  
 
 }

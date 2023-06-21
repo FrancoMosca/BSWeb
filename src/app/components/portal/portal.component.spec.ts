@@ -8,6 +8,7 @@ describe('PortalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports:[],
       declarations: [ PortalComponent ]
     })
     .compileComponents();
