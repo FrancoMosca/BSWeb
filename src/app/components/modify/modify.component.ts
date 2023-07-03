@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { CRUDService } from 'src/app/services/crud.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { RolesService } from 'src/app/services/roles.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-modify',
@@ -9,26 +11,31 @@ import { RolesService } from 'src/app/services/roles.service';
   styleUrls: ['./modify.component.css']
 })
 export class ModifyComponent implements OnInit{
-  @Input() dato!: string;
+  @Input() dato: string;
   public client:any;
   public user:any;
-  
+  public loggedUserClient!: string;
   constructor(
     private _firestoreService: FirestoreService,
     private toastr: ToastrService,
     public _rolesService: RolesService,
+    public _userService: UserService,
+    public _crudService:CRUDService
   ) {
     this.dato = history.state.dato;
   }
   
-  ngOnInit() {
+  async ngOnInit(): Promise<void>{
     this.user = history.state.user;
     this.client = history.state.client;
+    const user = await this._userService.getUserData();
+    this.loggedUserClient = user?.client || '';
   }
 
   async modifyUser(user: any) {
     const collectionName = 'Users';
     const documentId = user.id;
+
     try {
       await this._firestoreService.updateDocument(collectionName, documentId, user);
       this.toastr.success('El usuario ha sido modificado', 'Acción exitosa');
@@ -50,19 +57,19 @@ export class ModifyComponent implements OnInit{
     }
   }
 
-  isFieldReadonly(field: string): boolean {
-    if (field === 'authID' || field ==='id') {
+  isFieldReadonly(field: string): Boolean {
+    if (field === 'authID' || field ==='id'|| (field === 'client' && this.loggedUserClient !== 'Sistema')) {
       return true;
     } else {
       return false;
     }
   }
 
-  isBooleanField(obj:any,field: string): boolean {
+  isBooleanField(obj:any,field: string): Boolean {
     return typeof obj[field] === 'boolean';
   }
 
-  isFieldArray(obj:any,field: string): boolean {
+  isFieldArray(obj:any,field: string): Boolean {
     return Array.isArray(obj[field]);
   }
 

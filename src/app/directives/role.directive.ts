@@ -1,5 +1,5 @@
 import { Directive, Input, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
-import { LoginService } from '../services/login.service';
+import { UserService } from '../services/user.service';
 
 @Directive({
   selector: '[appRole]'
@@ -7,15 +7,14 @@ import { LoginService } from '../services/login.service';
 export class RoleDirective implements OnInit  {
   @Input('appRole') roleName!: string;
   constructor(
-    private _loginService: LoginService,
+    private _userService: UserService,
     private templateRef: TemplateRef<any>,
     private viewContainer: ViewContainerRef
   ) { }
 
   ngOnInit(): void {
-    this._loginService.getUserData().then(user => {
+    this._userService.getUserData().then(user => {
       const role = user?.role || ''; // Obtener el valor del 'role' del usuario
-  
       if (role === this.roleName) {
         this.viewContainer.createEmbeddedView(this.templateRef);
       } else {

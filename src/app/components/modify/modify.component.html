@@ -45,14 +45,19 @@
                     <ng-container *ngIf="isBooleanField(user,field)">
                       <mat-slide-toggle [(ngModel)]="user[field]" name="{{field}}"></mat-slide-toggle>
                     </ng-container>
-                    <ng-container *ngIf="!isBooleanField(user,field) && field !== 'role'">
+                    <ng-container *ngIf="!isBooleanField(user,field) && field !== 'role' && field !== 'client'">
                       <input type="text" id="{{field}}" [(ngModel)]="user[field]" name="{{field}}" [readonly]="isFieldReadonly(field)">
                     </ng-container>
                     <ng-container *ngIf="field === 'role'">
                       <select [(ngModel)]="user[field]" name="{{field}}">
                         <option *ngFor="let role of _rolesService.roles" [value]="role.name">{{ role.name }}</option>
                       </select>
-                    </ng-container>                                        
+                    </ng-container> 
+                    <ng-container *ngIf="field === 'client'">
+                      <select [(ngModel)]="user[field]" name="{{field}}">
+                        <option *ngFor="let client of _crudService.clients" [value]="client.nombre">{{ client.nombre }}</option>
+                      </select>
+                    </ng-container>                                          
                   </div>
                 </div>
               </ng-container>

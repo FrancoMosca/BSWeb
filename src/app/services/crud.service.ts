@@ -2,7 +2,6 @@ import { Injectable, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { ToastrService } from 'ngx-toastr';
 import { User } from '../models/users';
-import { Client } from '../models/client';
 import { FirestoreService } from './firestore.service';
 import { RolesService } from './roles.service';
 
@@ -17,7 +16,7 @@ export class CRUDService implements OnInit {
     private _firestoreService: FirestoreService,
     public afAuth: Auth,
     private toastr: ToastrService,
-    private _rolesService: RolesService
+    private _rolesService: RolesService,
   ) {
     this.getClients().then((clientesArray) => {
       this.clients = clientesArray;
