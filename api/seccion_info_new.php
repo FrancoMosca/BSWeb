@@ -28,8 +28,6 @@ SI ESTADO ES 1 �> DEVUELVE CONTENIDO DE �CLAVESISTEMA�
 		FROM user_web_empresa
 		WHERE empresa_encriptado = '$get_sispass'
 		";
-
-		echo $query_clasis;
 		/*
 		$query_clasis = "SELECT clavesistema, activo
 		FROM user_web_empresa
@@ -38,6 +36,7 @@ SI ESTADO ES 1 �> DEVUELVE CONTENIDO DE �CLAVESISTEMA�
 		";
 		*/
 		$rs_clasis_num = $mysqli->query($query_clasis)->num_rows;
+		echo $rs_clasis_num;
 		if($rs_clasis_num == 1){				
 			$rs_clasis = $mysqli->query($query_clasis)->fetch_assoc();
 			if($rs_clasis['activo'] == 0){
