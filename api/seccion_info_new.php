@@ -11,8 +11,6 @@
 	$dbprefix = $JConfig->dbprefix;	
 	
 	$mysqli = mysqli_init();
-	// $ssl_path='/var/task/user/api/cacert.pem';
-	// $mysqli->ssl_set(NULL,NULL,$ssl_path,NULL,NULL);
 	$mysqli->real_connect($mysql_host, $mysql_user,$mysql_password,$mysql_base);
 
 	$get_sispass = $_GET['gsp'];
@@ -30,6 +28,8 @@ SI ESTADO ES 1 �> DEVUELVE CONTENIDO DE �CLAVESISTEMA�
 		FROM user_web_empresa
 		WHERE empresa_encriptado = '$get_sispass'
 		";
+
+		echo $query_clasis;
 		/*
 		$query_clasis = "SELECT clavesistema, activo
 		FROM user_web_empresa

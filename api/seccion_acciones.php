@@ -166,103 +166,103 @@ utt=f8032d5cae3de20fcec887f395ec9a6a
 seccion_acciones.php?utt=f8032d5cae3de20fcec887f395ec9a6a&dt1=3&dt0=3
 */
 
-	}elseif($_GET['utt'] == "f8032d5cae3de20fcec887f395ec9a6a"){
+	// }elseif($_GET['utt'] == "f8032d5cae3de20fcec887f395ec9a6a"){
 
-			$iduser_web_belg = $_GET['dt1'];
-			$iduser_web_empresa = $_GET['dt2'];
-			$nombre = $_GET['dt3'];
-			$apellido = $_GET['dt4'];
-			$mail = $_GET['dt5'];
-			$username = $_GET['dt6'];
-			$password = $_GET['dt7'];
-			$activo = $_GET['dt8'];
-			$estado = $_GET['dt9'];
+	// 		$iduser_web_belg = $_GET['dt1'];
+	// 		$iduser_web_empresa = $_GET['dt2'];
+	// 		$nombre = $_GET['dt3'];
+	// 		$apellido = $_GET['dt4'];
+	// 		$mail = $_GET['dt5'];
+	// 		$username = $_GET['dt6'];
+	// 		$password = $_GET['dt7'];
+	// 		$activo = $_GET['dt8'];
+	// 		$estado = $_GET['dt9'];
 			
-					switch($_GET['dt0']){
-						case 1:
-							if(!$iduser_web_belg && !$iduser_web_empresa && !$nombre){
-								$error = "No se puede completar el registro.";
-							}else{
-								//AL ESTAR VACIA, DIRECTAMENTE INGRESO LOS VALORES DEL ARCHIVO
-								//"IDENTIDAD","EMPRESA","NOMBRE","EMAIL","USUARIO","CLAVE"
-								$query_ingresar = "INSERT INTO user_web ( 
-								  iduser_web_belg
-								, iduser_web_empresa
-								, nombre
-								, apellido
-								, mail
-								, username
-								, password
-								, activo
-								, estado
-								) VALUES ( 
-								  '$iduser_web_belg'
-								, '$iduser_web_empresa'
-								, '$nombre'
-								, '$apellido'
-								, '$mail'
-								, '$username'
-								, '$password'
-								, '$activo'
-								, '$estado'
-								)";
-									if(mysql_query($query_ingresar) == true){	
-										//$mensaje_finalizado = "Se ha cargado el usuario satisfactoriamente.";
-										$mensaje_finalizado = "1";
-									}else{
-										//$mensaje_finalizado = "Hubo un error al intentar cargar el usuario.";
-										$mensaje_finalizado = "2";
-									}
-							}
-						break;
+	// 				switch($_GET['dt0']){
+	// 					case 1:
+	// 						if(!$iduser_web_belg && !$iduser_web_empresa && !$nombre){
+	// 							$error = "No se puede completar el registro.";
+	// 						}else{
+	// 							//AL ESTAR VACIA, DIRECTAMENTE INGRESO LOS VALORES DEL ARCHIVO
+	// 							//"IDENTIDAD","EMPRESA","NOMBRE","EMAIL","USUARIO","CLAVE"
+	// 							$query_ingresar = "INSERT INTO user_web ( 
+	// 							  iduser_web_belg
+	// 							, iduser_web_empresa
+	// 							, nombre
+	// 							, apellido
+	// 							, mail
+	// 							, username
+	// 							, password
+	// 							, activo
+	// 							, estado
+	// 							) VALUES ( 
+	// 							  '$iduser_web_belg'
+	// 							, '$iduser_web_empresa'
+	// 							, '$nombre'
+	// 							, '$apellido'
+	// 							, '$mail'
+	// 							, '$username'
+	// 							, '$password'
+	// 							, '$activo'
+	// 							, '$estado'
+	// 							)";
+	// 								if(mysql_query($query_ingresar) == true){	
+	// 									//$mensaje_finalizado = "Se ha cargado el usuario satisfactoriamente.";
+	// 									$mensaje_finalizado = "1";
+	// 								}else{
+	// 									//$mensaje_finalizado = "Hubo un error al intentar cargar el usuario.";
+	// 									$mensaje_finalizado = "2";
+	// 								}
+	// 						}
+	// 					break;
 				
-						case 2:
-							if(!$iduser_web_belg){
-								$error = "No se pueden actualizar los datos.";
-							}else{
-								//AL ESTAR VACIA, DIRECTAMENTE INGRESO LOS VALORES DEL ARCHIVO
-								//1;BODEGAS HUMBERTO CANALE;CANALE;Ub2komwieNsUs4F5kB;1;1
-								$query_ingresar = "UPDATE user_web SET sexo = 'N'";
-								if($iduser_web_empresa){$query_ingresar .= ", iduser_web_empresa = '$iduser_web_empresa'";}
-								if($nombre){$query_ingresar .= ", nombre = '$nombre'";}
-								if($apellido){$query_ingresar .= ", apellido = '$apellido'";}
-								if($mail){$query_ingresar .= ", mail = '$mail'";}
-								if($username){$query_ingresar .= ", username = '$username'";}
-								if($password){$query_ingresar .= ", password = '$password'";}
-								if($activo){$query_ingresar .= ", activo = '$activo'";}
-								if($estado){$query_ingresar .= ", estado = '$estado'";}
+	// 					case 2:
+	// 						if(!$iduser_web_belg){
+	// 							$error = "No se pueden actualizar los datos.";
+	// 						}else{
+	// 							//AL ESTAR VACIA, DIRECTAMENTE INGRESO LOS VALORES DEL ARCHIVO
+	// 							//1;BODEGAS HUMBERTO CANALE;CANALE;Ub2komwieNsUs4F5kB;1;1
+	// 							$query_ingresar = "UPDATE user_web SET sexo = 'N'";
+	// 							if($iduser_web_empresa){$query_ingresar .= ", iduser_web_empresa = '$iduser_web_empresa'";}
+	// 							if($nombre){$query_ingresar .= ", nombre = '$nombre'";}
+	// 							if($apellido){$query_ingresar .= ", apellido = '$apellido'";}
+	// 							if($mail){$query_ingresar .= ", mail = '$mail'";}
+	// 							if($username){$query_ingresar .= ", username = '$username'";}
+	// 							if($password){$query_ingresar .= ", password = '$password'";}
+	// 							if($activo){$query_ingresar .= ", activo = '$activo'";}
+	// 							if($estado){$query_ingresar .= ", estado = '$estado'";}
 								
 
-								$query_ingresar .= " WHERE iduser_web_belg = '$iduser_web_belg'";
+	// 							$query_ingresar .= " WHERE iduser_web_belg = '$iduser_web_belg'";
 								
-									if(mysql_query($query_ingresar) == true){	
-										//$mensaje_finalizado = "Se ha actualizado el usuario satisfactoriamente.";
-										$mensaje_finalizado = "1";
-									}else{
-										//$mensaje_finalizado = "Hubo un error al intentar actualizar el usuario.";
-										$mensaje_finalizado = "2";
-									}	
-							}
+	// 								if(mysql_query($query_ingresar) == true){	
+	// 									//$mensaje_finalizado = "Se ha actualizado el usuario satisfactoriamente.";
+	// 									$mensaje_finalizado = "1";
+	// 								}else{
+	// 									//$mensaje_finalizado = "Hubo un error al intentar actualizar el usuario.";
+	// 									$mensaje_finalizado = "2";
+	// 								}	
+	// 						}
 				
-						break;
+	// 					break;
 				
-						case 3:
-							if(!$iduser_web_belg){
-								$error = "No se puedo eliminar el registro.";
-							}else{
-								//AL ESTAR VACIA, DIRECTAMENTE INGRESO LOS VALORES DEL ARCHIVO
-								//1;BODEGAS HUMBERTO CANALE;CANALE;Ub2komwieNsUs4F5kB;1
-								$query_ingresar = "DELETE FROM user_web WHERE iduser_web_belg = '$iduser_web_belg' ";
-									if(mysql_query($query_ingresar) == true){	
-										//$mensaje_finalizado = "Se ha eliminado el usuario satisfactoriamente.";
-										$mensaje_finalizado = "1";
-									}else{
-										//$mensaje_finalizado = "Hubo un error al intentar eliminar el usuario.";
-										$mensaje_finalizado = "2";
-									}
-							}
-						break;
-					}
+	// 					case 3:
+	// 						if(!$iduser_web_belg){
+	// 							$error = "No se puedo eliminar el registro.";
+	// 						}else{
+	// 							//AL ESTAR VACIA, DIRECTAMENTE INGRESO LOS VALORES DEL ARCHIVO
+	// 							//1;BODEGAS HUMBERTO CANALE;CANALE;Ub2komwieNsUs4F5kB;1
+	// 							$query_ingresar = "DELETE FROM user_web WHERE iduser_web_belg = '$iduser_web_belg' ";
+	// 								if(mysql_query($query_ingresar) == true){	
+	// 									//$mensaje_finalizado = "Se ha eliminado el usuario satisfactoriamente.";
+	// 									$mensaje_finalizado = "1";
+	// 								}else{
+	// 									//$mensaje_finalizado = "Hubo un error al intentar eliminar el usuario.";
+	// 									$mensaje_finalizado = "2";
+	// 								}
+	// 						}
+	// 					break;
+	// 				}
 
 	}else{
 		$mensaje_finalizado = "No se ha realizado ninguna acci&oacute;n";
