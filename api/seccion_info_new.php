@@ -54,33 +54,33 @@ SI ESTADO ES 1 �> DEVUELVE CONTENIDO DE �CLAVESISTEMA�
 		}
 	}
 
-	$get_userpass = $_GET['gup'];
-	if($get_userpass != ''){
-	// Muestro clave del sistema local en la siguiente consulta
-		$query_clasis = "SELECT password, activo
-		FROM user_web
-		WHERE iduser_web_belg = '$get_userpass'
-		";
-		/*
-		$query_clasis = "SELECT password, activo
-		FROM user_web
-		WHERE iduser_web_belg = '$get_userpass'
-		AND activo = 1
-		";
-		*/
-		$rs_clasis_num = $mysqli->query($query_clasis)->num_rows;
-		if($rs_clasis_num == 1){				
-			$rs_clasis = $mysqli->query($query_clasis)->fetch_assoc();					
-			if($rs_clasis['activo'] == 1){
-				$dar_clasis = $rs_clasis['activo'].$rs_clasis['password'];
-			}else{
-				$dar_clasis = $rs_clasis['activo'];
-			}
+	// $get_userpass = $_GET['gup'];
+	// if($get_userpass != ''){
+	// // Muestro clave del sistema local en la siguiente consulta
+	// 	$query_clasis = "SELECT password, activo
+	// 	FROM user_web
+	// 	WHERE iduser_web_belg = '$get_userpass'
+	// 	";
+	// 	/*
+	// 	$query_clasis = "SELECT password, activo
+	// 	FROM user_web
+	// 	WHERE iduser_web_belg = '$get_userpass'
+	// 	AND activo = 1
+	// 	";
+	// 	*/
+	// 	$rs_clasis_num = $mysqli->query($query_clasis)->num_rows;
+	// 	if($rs_clasis_num == 1){				
+	// 		$rs_clasis = $mysqli->query($query_clasis)->fetch_assoc();					
+	// 		if($rs_clasis['activo'] == 1){
+	// 			$dar_clasis = $rs_clasis['activo'].$rs_clasis['password'];
+	// 		}else{
+	// 			$dar_clasis = $rs_clasis['activo'];
+	// 		}
 
-		}else{
-			$dar_clasis = "No est&aacute; autorizada la clave para este sistema";
-		}
-	}
+	// 	}else{
+	// 		$dar_clasis = "No est&aacute; autorizada la clave para este sistema";
+	// 	}
+	// }
 
  	echo $dar_clasis; 
 	$mysqli->close();
