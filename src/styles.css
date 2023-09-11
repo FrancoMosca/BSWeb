@@ -1,3 +1,7 @@
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
 body {
     min-height: 100vh !important;
     height: 100% !important;
@@ -200,7 +204,7 @@ app-spinner {
     float: left;
     color:white;
     grid-template-rows: 3fr;
-    max-height: 22.5em; /* Establece la altura máxima para 3 filas */
+    max-height: 22.5em;
     overflow: auto;
 }
 .submit-btn {
@@ -213,20 +217,19 @@ app-spinner {
 }
 
 .grid-form::-webkit-scrollbar {
-    width: 8px; /* Ajusta el ancho de la barra de desplazamiento */
+    width: 8px;
 }
 
 .grid-form::-webkit-scrollbar-track {
-    background-color: #0a0a0a; /* Cambia el color de fondo de la barra de desplazamiento */
+    background-color: #0a0a0a; 
 }
 
 .grid-form::-webkit-scrollbar-thumb {
-    background-color: #474747; /* Cambia el color del pulgar de la barra de desplazamiento */
-    border-radius: 4px; /* Agrega bordes redondeados al pulgar de la barra de desplazamiento */
+    background-color: #474747;
 }
 
 .grid-form::-webkit-scrollbar-thumb:hover {
-    background-color: #5f5e5e; /* Cambia el color del pulgar de la barra de desplazamiento al pasar el mouse sobre él */
+    background-color: #5f5e5e; 
 }
 
 .input-wrapper:focus-within {

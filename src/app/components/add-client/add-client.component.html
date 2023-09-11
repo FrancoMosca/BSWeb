@@ -4,7 +4,7 @@
   <div class="centered">
     <h2>Agregar Cliente</h2>
   </div>
-  <form (ngSubmit)="crud.addClient(client)" [formGroup]="client" >
+  <form (ngSubmit)="_clientService.addClient(client)" [formGroup]="client" >
     <div class="grid-form">
       <div class="item">
         <div class="input-wrapper">

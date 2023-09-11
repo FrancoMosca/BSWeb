@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { CRUDService } from 'src/app/services/crud.service';
+import { ClientService } from 'src/app/services/client.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { RolesService } from 'src/app/services/roles.service';
 import { UserService } from 'src/app/services/user.service';
@@ -20,7 +20,7 @@ export class ModifyComponent implements OnInit{
     private toastr: ToastrService,
     public _rolesService: RolesService,
     public _userService: UserService,
-    public _crudService:CRUDService
+    public _clientService:ClientService
   ) {
     this.dato = history.state.dato;
   }
@@ -35,9 +35,12 @@ export class ModifyComponent implements OnInit{
   async modifyUser(user: any) {
     const collectionName = 'Users';
     const documentId = user.id;
+    const userData = { ...user };
+    
+    delete userData.id;
 
     try {
-      await this._firestoreService.updateDocument(collectionName, documentId, user);
+      await this._firestoreService.updateDocument(collectionName, documentId, userData);
       this.toastr.success('El usuario ha sido modificado', 'Acción exitosa');
     } catch (error) {
       this.toastr.error('No se pudo modificar el usuario', 'Error');

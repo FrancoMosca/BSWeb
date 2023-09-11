@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ClientService } from '../../services/client.service'
-import { Firestore, arrayUnion, collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc, query, where} from '@angular/fire/firestore';
+import { Firestore, arrayUnion, collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc, query, where, persistentMultipleTabManager} from '@angular/fire/firestore';
 import { ToastrService } from 'ngx-toastr';
 import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import { Router } from '@angular/router';
@@ -17,7 +17,6 @@ export class LoginComponent implements OnInit {
   isSubmitting = false;
   constructor(public _loginService:LoginService,
               public fb:FormBuilder,
-              public _clientService:ClientService,
               private afStore:Firestore,
               private afAuth:Auth,
               public toastr:ToastrService,
@@ -71,7 +70,6 @@ export class LoginComponent implements OnInit {
               }
             }
           }
-  
           if (!foundUser) {
             const foundDoc = addUsersquerySnapshot.docs.find(
               (doc) =>
@@ -79,7 +77,7 @@ export class LoginComponent implements OnInit {
                 doc.data()['client'].toLowerCase() === client.toLowerCase() &&
                 doc.data()['password'] === password
             );
-  
+            console.log(foundDoc);
             if (foundDoc) {
               this._loginService.loading = true;
               createUserWithEmailAndPassword(this.afAuth, foundDoc.data()['email'], password)
@@ -91,21 +89,25 @@ export class LoginComponent implements OnInit {
                   };
                   const docInstance = doc(dbInstance,clientDoc.id);
                   updateDoc(docInstance, { [`users`]: arrayUnion(uid)});
-                  let docInstanceUser;
-                  const docQuery = query(dbInstanceUsers,
-                    where('email', '==', foundDoc.data()['email']),
-                    where('username', '==', foundDoc.data()['username']),
-                    where('client', '==', client)
-                  );
-                  const querySnapshotUser = await getDocs(docQuery);
 
-                  if (!querySnapshotUser.empty) {
-                    docInstanceUser = querySnapshotUser.docs[0].ref;
+                  const querySnapshot = await getDocs(query(dbInstanceUsers, 
+                      where('email', '==', foundDoc.data()['email'].toLowerCase()), 
+                      where('username', '==', foundDoc.data()['username'].toLowerCase()), 
+                      where('client', '==', client)
+                  ));
+                  console.log(querySnapshot)
+
+                  let docInstanceUser;
+
+                  
+                  if (!querySnapshot.empty) {
+                    docInstanceUser = querySnapshot.docs[0].ref;
                   }
 
                   if (docInstanceUser) {
                     await updateDoc(docInstanceUser, authData);
                   }
+                  
                   const deleteDocInstance = doc(addUsersInstance, foundDoc.id);
                   await deleteDoc(deleteDocInstance);
 

@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 
 import { Client } from 'src/app/models/client';
 import { User } from 'src/app/models/users';
-import { CRUDService } from 'src/app/services/crud.service';
+import { ClientService } from 'src/app/services/client.service';
 import { RolesService } from 'src/app/services/roles.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -27,7 +27,7 @@ export class CRUDComponent implements OnInit {
   public isSystemUser!:boolean;
 
   constructor(
-    private _crudService: CRUDService,
+    private _clientService: ClientService,
     private _userService: UserService,
     public _roleService: RolesService,
     private router: Router,
@@ -47,7 +47,7 @@ export class CRUDComponent implements OnInit {
     const user = await this._userService.getUserData();
     this.loggedUserClient = user?.client || '';
 
-    const usersArray = await this._crudService.getUsers();
+    const usersArray = await this._userService.getUsers();
     if (this.loggedUserClient.toLowerCase() === 'sistema') {
       this.users = usersArray;
       this.activeUsers = usersArray.filter((user) => user.activo);
@@ -55,7 +55,7 @@ export class CRUDComponent implements OnInit {
       this.activeUsers = usersArray.filter((user) => user.client.toLowerCase() === this.loggedUserClient.toLowerCase());
     }
 
-    const clientesArray = await this._crudService.getClients();
+    const clientesArray = await this._clientService.getClients();
     this.clients = clientesArray;
     this.activeClients = clientesArray.filter((client) => client.activo);
   }
@@ -69,7 +69,7 @@ export class CRUDComponent implements OnInit {
   }
 
   async deleteUser(user: User): Promise<void> {
-    await this._crudService.deleteUser(user);
+    await this._userService.deleteUser(user);
     this.activeUsers = this.activeUsers.filter((u) => u['authID'] !== user['authID']);
   }
 
@@ -82,7 +82,7 @@ export class CRUDComponent implements OnInit {
   }
 
   async deleteClient(client: Client): Promise<void> {
-    await this._crudService.deleteClient(client);
+    await this._clientService.deleteClient(client);
     this.activeClients = this.activeClients.filter((c) => c.id !== client.id);
   }
 
@@ -158,7 +158,7 @@ export class CRUDComponent implements OnInit {
   }
 
   async select(): Promise<void> {
-    const usersArray = await this._crudService.getUsers();
+    const usersArray = await this._userService.getUsers();
     if(this.selectedClient === null || this.selectedClient === undefined){
       this.activeUsers = usersArray.filter((user) => user.role.toLowerCase() === this.selectedRole.toLowerCase());
     }

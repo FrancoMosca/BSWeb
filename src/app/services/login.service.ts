@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { Auth, signInWithEmailAndPassword, signOut} from '@angular/fire/auth';
 import { ToastrService } from 'ngx-toastr';
 import { FirebaseCodeErrorService } from './firebase-code-error.service';
-import { Firestore, collection, getDocs, query, where } from '@angular/fire/firestore';
 import { UserService } from './user.service';
 
 @Injectable({

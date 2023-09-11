@@ -1,13 +1,13 @@
 <app-navbar></app-navbar>
 <div class="client-box">
-  <form [formGroup]="user" (ngSubmit)="_crudService.addUser(user)">
+  <form [formGroup]="user" (ngSubmit)="_userService.addUser(user)">
     <div class="grid-form">
       <div class="form-group">
         <div class="inputBox">
           <ng-container *ngIf="systemClient(); else clientInput">
             <select formControlName="client"  type="text">
               <option value="" disabled selected hidden>Cliente</option>
-              <option *ngFor="let client of _crudService.clients" [value]="client.nombre">{{ client.nombre }}</option>
+              <option *ngFor="let client of _clientService.clients" [value]="client.nombre">{{ client.nombre }}</option>
             </select>
           </ng-container>
           <ng-template #clientInput>

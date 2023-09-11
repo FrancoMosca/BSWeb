@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CRUDService } from 'src/app/services/crud.service';
+import { ClientService } from 'src/app/services/client.service';
 
 @Component({
   selector: 'app-add-client',
@@ -11,7 +11,7 @@ export class AddClientComponent{
   client: FormGroup;
 
   constructor(private fb: FormBuilder,
-              public crud:CRUDService){
+              public _clientService: ClientService){
     this.client = this.fb.group({
       nombre:['',[Validators.required]],
       telefono:['',[Validators.required]],

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CRUDService } from 'src/app/services/crud.service';
+import { ClientService } from 'src/app/services/client.service';
 import { RolesService } from 'src/app/services/roles.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -15,9 +15,9 @@ export class AddUserComponent implements OnInit {
   public loggedUserClient!: string;
   constructor(
               private fb:FormBuilder,
-              public _crudService:CRUDService,
+              public _clientService:ClientService,
               public _rolesService:RolesService,
-              private _userService:UserService)
+              public _userService:UserService)
               {
                   this.user = this.fb.group({
                     username:['',[Validators.required]],

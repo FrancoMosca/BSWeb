@@ -20,6 +20,7 @@ export class FirestoreService {
   async updateDocument(collectionName: string, documentId: string, newData: any) {
     try {
       const docRef = doc(this.afStore, collectionName, documentId);
+      console.log(newData);
       await updateDoc(docRef, newData);
       this.toastr.success('Documento actualizado exitosamente', 'Acción exitosa');
     } catch (error) {

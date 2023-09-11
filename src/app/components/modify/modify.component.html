@@ -55,7 +55,7 @@
                     </ng-container> 
                     <ng-container *ngIf="field === 'client'">
                       <select [(ngModel)]="user[field]" name="{{field}}">
-                        <option *ngFor="let client of _crudService.clients" [value]="client.nombre">{{ client.nombre }}</option>
+                        <option *ngFor="let client of _clientService.clients" [value]="client.nombre">{{ client.nombre }}</option>
                       </select>
                     </ng-container>                                          
                   </div>
