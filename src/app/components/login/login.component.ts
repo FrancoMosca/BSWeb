@@ -35,7 +35,8 @@ export class LoginComponent implements OnInit {
 
   async login() {
     const username = this.userLogin.value.username;
-    const client = this.userLogin.value.client;
+    let client = this.userLogin.value.client;
+    client = client.charAt(0).toUpperCase() + client.slice(1);
     const password = this.userLogin.value.password;
     const dbInstance = collection(this.afStore, 'Clientes');
     const querySnapshot = await getDocs(dbInstance);
@@ -107,7 +108,7 @@ export class LoginComponent implements OnInit {
                   if (docInstanceUser) {
                     await updateDoc(docInstanceUser, authData);
                   }
-                  
+
                   const deleteDocInstance = doc(addUsersInstance, foundDoc.id);
                   await deleteDoc(deleteDocInstance);
 
